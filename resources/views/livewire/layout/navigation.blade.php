@@ -22,9 +22,7 @@ new class extends Component
         <div class="h-auto sm:h-screen flex sm:flex-col items-center justify-between border-r border-gray-200">
             <!-- Logo -->
             <a href="{{ route('dashboard') }}" wire:navigate class="p-5 shrink-0 min-w-72 flex items-center sm:border-b border-gray-200">
-                <div>
-                    <x-application-logo />
-                </div>
+                <x-application-logo />
             </a>
 
             {{-- Desktop Navigation --}}
