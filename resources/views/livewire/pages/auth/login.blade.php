@@ -29,6 +29,16 @@ new #[Layout('layouts.guest')] class extends Component
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    {{-- Logo --}}
+    <div class="absolute top-5 left-5">
+        <!-- Logo -->
+        <a href="{{ route('dashboard') }}" wire:navigate class="p-5 shrink-0 min-w-72 flex items-center">
+            <div>
+                <x-application-logo />
+            </div>
+        </a>
+    </div>
+
     <hgroup>
         <p class="poppins-bold">Welcome Back,</p>
         <h1 class="mb-5 text-3xl font-bold poppins-bold">Doc. Chona!</h1>
@@ -61,7 +71,7 @@ new #[Layout('layouts.guest')] class extends Component
             @endif --}}
 
             <x-primary-button class="w-full">
-                {{ __('Log in') }}
+                {{ __('Login') }}
             </x-primary-button>
         </div>
     </form>
