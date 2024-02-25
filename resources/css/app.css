@@ -1,9 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,600;1,600&family=Poppins:wght@700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,600;1,600&family=Poppins:wght@700&display=swap');
 
-/* Remove focus sttate from tailwind forms */
+/* Remove focus state from tailwind forms */
 
 [type='text']:focus,
 [type='email']:focus,
@@ -23,7 +23,7 @@
 textarea:focus,
 select:focus {
   --tw-ring-color: none;
-  border-color: none;
+  @apply border-b-gray-500;
 }
 
 .poppins-bold {
@@ -35,5 +35,6 @@ select:focus {
 @layer base {
     html {
         font-family: "Karla", system-ui, sans-serif;
+        @apply text-primary;
     }
 }

@@ -11,9 +11,12 @@ export default {
 
     theme: {
         extend: {
-            // fontFamily: {
-            //     sans: ['Karla', ...defaultTheme.fontFamily.sans],
-            // },
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                'primary': '#011638',
+            }
         },
     },
 

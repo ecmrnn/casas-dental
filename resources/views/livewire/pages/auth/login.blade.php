@@ -34,7 +34,7 @@ new #[Layout('layouts.guest')] class extends Component
         <h1 class="mb-5 text-3xl font-bold poppins-bold">Doc. Chona!</h1>
     </hgroup>
 
-    <form wire:submit="login" class="grid gap-5">
+    <form wire:submit="login" class="grid gap-5" autocomplete="off">
         <!-- Email Address -->
         <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="email" :value="__('Email')" />
