@@ -24,7 +24,7 @@
                     <h1 class="poppins-bold font-semibold text-3xl leading-none">
                         {{ $header }}
                     </h1>
-                    <div class="flex items-center gap-5">
+                    <div class="hidden md:flex items-center gap-5">
                         <div>
                             <p class="poppins-bold leading-none text-xs text-right">Welcome Back,</p>
                             <p class="poppins-bold leading-none text-right capitalize">Doc. {{ auth()->user()->name }}</p>

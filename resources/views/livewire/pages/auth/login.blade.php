@@ -30,7 +30,7 @@ new #[Layout('layouts.guest')] class extends Component
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     {{-- Logo --}}
-    <div class="absolute top-5 left-5">
+    <div class="absolute top-1 left-1 sm:top-5 sm:left-5">
         <!-- Logo -->
         <a href="{{ route('dashboard') }}" wire:navigate class="p-5 shrink-0 min-w-72 flex items-center">
             <div>
