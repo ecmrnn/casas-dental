@@ -13,15 +13,15 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="sm:flex">
+    <body class="lg:flex">
         <livewire:layout.navigation />
 
-        <main class="p-10 w-full">
+        <main class="sm:p-5 md:p-10 w-full">
             <!-- Page Heading -->
             @if (isset($header))
-            <header class="mb-10">
+            <header class="mb-5 sm:mb-10">
                 <div class="flex justify-between items-center">
-                    <h1 class="poppins-bold font-semibold text-3xl leading-none">
+                    <h1 class="p-5 pb-0 sm:p-0 poppins-bold font-semibold text-xl sm:text-3xl leading-none">
                         {{ $header }}
                     </h1>
                     <div class="hidden md:flex items-center gap-5">
