@@ -44,87 +44,30 @@
                     <p>Recent Patients</p>
                 </div>
 
-                <div class="mt-5 min-h-80 overflow-scroll">
-                    <table class="w-full min-w-[800px] border-separate border-spacing-0 border-spacing-y-1">
-                        <thead>
-                            <tr>
-                                <td class="pl-5 py-3 text-left bg-green-50 rounded-s-lg">Time</td>
-                                <td class="py-3 text-left bg-green-50">Patient name</td>
-                                <td class="py-3 text-left bg-green-50">Purpose</td>
-                                <td class="py-3 text-left bg-green-50">Your note</td>
-                                <td class="py-3 text-left bg-green-50 rounded-e-lg"></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
-                                <td class="border-y border-gray-200">Juan Dela Cruz</td>
-                                <td class="border-y border-gray-200">Extraction</td>
-                                <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
-                                <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                    <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
-                                        View Record
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                {{-- Table of Recent Patients --}}
+                <x-table>
+                    <x-slot name="header">
+                        <th class="pl-5 py-3 text-left bg-green-50 rounded-s-lg">Time</th>
+                        <th class="py-3 text-left bg-green-50">Patient name</th>
+                        <th class="py-3 text-left bg-green-50">Purpose</th>
+                        <th class="py-3 text-left bg-green-50">Your note</th>
+                        <th class="py-3 text-left bg-green-50 rounded-e-lg"></th>
+                    </x-slot>
+
+                    <tbody>
+                        <tr>
+                            <td class="pl-5 border-y border-l rounded-s-lg border-gray-200">9:00 AM</td>
+                            <td class="border-y border-gray-200">Juan Dela Cruz</td>
+                            <td class="border-y border-gray-200">Extraction</td>
+                            <td class="border-y border-gray-200">Lorem, ipsum dolor.</td>
+                            <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
+                                <button class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50">
+                                    View Record
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </x-table>
             </div>
         </section>
 

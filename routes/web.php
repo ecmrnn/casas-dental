@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Records;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -21,12 +22,25 @@ Route::middleware('guest')->group(function () {
         ->name('password.reset');
 });
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+/* 
+*
+*   These routes must only be accesible to authenticated and
+*   verified user of the application
+*
+*/
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('dashboard', 'dashboard')
+        ->name('dashboard');
+    Route::view('profile', 'profile')
+        ->name('profile');
+
+    // Livewire components
+    Route::get('records', Records::class)
+        ->name('records');
+});
+
+
+
 
 require __DIR__ . '/auth.php';
