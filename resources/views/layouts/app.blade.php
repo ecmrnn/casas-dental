@@ -16,12 +16,12 @@
     <body class="lg:flex">
         <livewire:layout.navigation />
 
-        <main class="sm:p-5 md:p-10 w-full">
+        <main class="md:p-5 lg:p-10 overflow-scroll w-full bg-gray-50/90">
             <!-- Page Heading -->
             @if (isset($header))
             <header class="mb-5 sm:mb-10">
                 <div class="flex justify-between items-center">
-                    <h1 class="p-5 pb-0 sm:p-0 poppins-bold font-semibold text-xl sm:text-3xl leading-none">
+                    <h1 class="p-5 pb-0 md:p-0 poppins-bold font-semibold text-xl sm:text-3xl leading-none">
                         {{ $header }}
                     </h1>
                     <div class="hidden md:flex items-center gap-5">

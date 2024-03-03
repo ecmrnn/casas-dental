@@ -1,29 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,700;1,600&family=Poppins:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,700;1,600&family=Poppins:wght@700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Remove focus state from tailwind forms */
 
-[type='text']:focus,
-[type='email']:focus,
-[type='url']:focus,
-[type='password']:focus,
-[type='number']:focus,
-[type='date']:focus,
-[type='datetime-local']:focus,
-[type='month']:focus,
-[type='search']:focus,
-[type='tel']:focus,
-[type='checkbox']:focus,
-[type='radio']:focus,
-[type='time']:focus,
-[type='week']:focus,
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="datetime-local"]:focus,
+[type="month"]:focus,
+[type="search"]:focus,
+[type="tel"]:focus,
+[type="checkbox"]:focus,
+[type="radio"]:focus,
+[type="time"]:focus,
+[type="week"]:focus,
 [multiple]:focus,
 textarea:focus,
 select:focus {
-  --tw-ring-color: none;
-  @apply border-b-gray-500;
+    --tw-ring-color: none;
+    @apply border-b-gray-500;
 }
 
 .poppins-bold {
