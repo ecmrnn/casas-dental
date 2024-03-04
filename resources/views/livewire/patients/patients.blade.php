@@ -15,7 +15,7 @@
                 {{ __('Add Patient') }}
             </x-primary-button>
             <div class="p-3 pl-5 pb-2 w-full sm:w-auto rounded-lg border border-gray-200 bg-white flex gap-3 justify-between">
-                <x-input-search placeholder="Search a Patient" class="text-sm w-full" />
+                <x-input-search wire:model.live.debounce.500ms="search" placeholder="Search a Patient" class="text-sm w-full" />
                 <svg class="opacity-50" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M384.035-336Q284-336 214-406t-70-170q0-100 70-170t170-70q100 0 170 70t70 170.035q0 40.381-12.5 76.173T577-434l214 214q11 11 11 25t-11 25q-11 11-25.5 11T740-170L526-383q-30 22-65.792 34.5T384.035-336ZM384-408q70 0 119-49t49-119q0-70-49-119t-119-49q-70 0-119 49t-49 119q0 70 49 119t119 49Z"/></svg>
             </div>
         </div>
@@ -29,11 +29,19 @@
         </div>
 
         @if (count($patients) == 0)
-            <button wire:click="add" class="mt-5 w-full p-10 border border-gray-200 rounded-lg">
-                <p class="text-center text-7xl">😴</p>
-                <p class="mt-4 text-center poppins-bold text-2xl leading-none">List is empty!</p>
-                <p class="mt-1 text-center opacity-50">No patients, click here to add one.</p>
-            </button>
+            @if (count($patients) == 0 && $search !== '')
+                <div class="mt-5 w-full p-10 border border-gray-200 rounded-lg">
+                    <p class="text-center text-7xl">😥</p>
+                    <p class="mt-4 text-center poppins-bold text-2xl leading-none">Not Found!</p>
+                    <p class="mt-1 text-center opacity-50">'{{ $search }}' is not in the list.</p>
+                </div>
+            @else
+                <button wire:click="add" class="mt-5 w-full p-10 border border-gray-200 rounded-lg">
+                    <p class="text-center text-7xl">😴</p>
+                    <p class="mt-4 text-center poppins-bold text-2xl leading-none">List is empty!</p>
+                    <p class="mt-1 text-center opacity-50">No patients, click here to add one.</p>
+                </button>
+            @endif
         @else
             
             {{-- Desktop List --}}
@@ -56,13 +64,13 @@
                                     </a>
                                 </td>
                                 <td class="border-y border-gray-200 capitalize">{{ $patient->first_name . " " . $patient->last_name }}</td>
-                                <td class="border-y border-gray-200">09{{ $patient->contact_number }}</td>
+                                <td class="border-y border-gray-200">{{ $patient->contact_number }}</td>
                                 <td class="border-y border-gray-200">{{ date_format($patient->created_at, 'F d, Y') }}</td>
                                 <td class="border-y border-r border-gray-200 rounded-e-lg flex justify-end">
                                     <button wire:click="confirmDelete({{ $patient->id }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                                     </button>
-                                    <button wire:click="mobileAction({{ $patient->id }})" class="p-2 m-2 ml-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                    <button wire:click="action({{ $patient->id }})" class="p-2 m-2 ml-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
                                     </button>
                                 </td>
@@ -86,7 +94,7 @@
                                     <p class="leading-none text-xs opacity-50">09{{ $patient->contact_number }}</p>
                                 </div>
                             </a>
-                            <button wire:click="mobileAction({{ $patient->id }})" class="p-2 m-2 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                            <button wire:click="action({{ $patient->id }})" class="p-2 m-2 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                 <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
                             </button>
                         </div>

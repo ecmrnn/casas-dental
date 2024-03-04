@@ -3,12 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Patient;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Patients extends Component
 {
+    use WithPagination;
 
     #[Validate]
     public $firstName = '';
@@ -24,6 +26,8 @@ class Patients extends Component
     #[Validate]
     public $selectedContactNumber;
     public $selectedId;
+
+    public $search = '';
 
     // Validation Methods
 
@@ -73,7 +77,7 @@ class Patients extends Component
 
     // Record Methods
 
-    public function mobileAction($id)
+    public function action($id)
     {
         $patient = Patient::find($id);
         $this->reset();
@@ -84,7 +88,7 @@ class Patients extends Component
         $this->lastName = $patient->last_name;
         $this->selectedFirstName = $patient->first_name;
         $this->selectedLastName = $patient->last_name;
-        $this->selectedContactNumber = $patient->contact_number;
+        $this->selectedContactNumber = substr($patient->contact_number, 2);
         $this->dispatch('open-modal', name: 'action-modal');
     }
 
@@ -119,7 +123,7 @@ class Patients extends Component
         if ($patient) {
             $patient->first_name = $this->selectedFirstName;
             $patient->last_name = $this->selectedLastName;
-            $patient->contact_number = $this->selectedContactNumber;
+            $patient->contact_number = '09' . $this->selectedContactNumber;
             $patient->save();
             session()->flash('success', 'Patient updated!');
         } else {
@@ -140,7 +144,7 @@ class Patients extends Component
         Patient::create([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
-            'contact_number' => $this->contactNumber,
+            'contact_number' => '09' . $this->contactNumber,
         ]);
 
         session()->flash('success', 'Patient added!');
@@ -160,7 +164,12 @@ class Patients extends Component
 
     public function render()
     {
-        $patients = Patient::all()->sortBy('first_name');
+        $patients = Patient::query()
+            ->where('first_name', 'like', "%{$this->search}%")
+            ->orWhere('last_name', 'like', "%{$this->search}%")
+            ->orWhere('contact_number', 'like', "%{$this->search}%")
+            ->orderBy('first_name')
+            ->paginate(10);
 
         return view('livewire.patients.patients', [
             'patients' => $patients,
