@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Patients;
 use App\Livewire\Records;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -36,8 +37,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('profile');
 
     // Livewire components
-    Route::get('records', Records::class)
-        ->name('records');
+    Route::get('patients', Patients::class)
+        ->name('patients');
 });
 
 

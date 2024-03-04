@@ -4,7 +4,7 @@
     </x-slot>
 
     
-    <div class="grid grid-cols-1 gap-5 xl:grid-cols-3">
+    <div class="grid grid-cols-1 gap-10 xl:grid-cols-3">
         @if (session('success'))
             <x-message-success message="{{session('success')}}" />
         @endif
@@ -47,11 +47,11 @@
                 {{-- Table of Recent Patients --}}
                 <x-table>
                     <x-slot name="header">
-                        <th class="pl-5 py-3 text-left bg-green-50 rounded-s-lg">Time</th>
-                        <th class="py-3 text-left bg-green-50">Patient name</th>
-                        <th class="py-3 text-left bg-green-50">Purpose</th>
-                        <th class="py-3 text-left bg-green-50">Your note</th>
-                        <th class="py-3 text-left bg-green-50 rounded-e-lg"></th>
+                        <th class="pl-5 py-3 text-left bg-primary/10 rounded-s-lg">Time</th>
+                        <th class="py-3 text-left bg-primary/10">Patient name</th>
+                        <th class="py-3 text-left bg-primary/10">Purpose</th>
+                        <th class="py-3 text-left bg-primary/10">Your note</th>
+                        <th class="py-3 text-left bg-primary/10 rounded-e-lg"></th>
                     </x-slot>
 
                     <tbody>

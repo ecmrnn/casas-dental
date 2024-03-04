@@ -113,9 +113,13 @@ class Tasks extends Component
         return $this->redirect('/dashboard', navigate: true);
     }
 
+    public function completeConfirm()
+    {
+        $this->dispatch('open-modal-confirm', name: 'complete-confirm');
+    }
+
     public function complete($id)
     {
-        sleep(1);
         $task = Task::find($id);
 
         $task->status = 'complete';
