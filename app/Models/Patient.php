@@ -15,5 +15,7 @@ class Patient extends Model
         'first_name',
         'last_name',
         'contact_number',
+        'address',
+        'email',
     ];
 }

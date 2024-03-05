@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('first_name')->require();
             $table->string('last_name')->require();
             $table->string('contact_number')->require();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

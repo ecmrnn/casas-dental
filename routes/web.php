@@ -1,7 +1,9 @@
 <?php
 
+// use App\Livewire\Patients\Patients;
+
 use App\Livewire\Patients;
-use App\Livewire\Records;
+use App\Livewire\Patients\Record;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -37,11 +39,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('profile');
 
     // Livewire components
-    Route::get('patients', Patients::class)
-        ->name('patients');
+    Route::prefix('patients')->group(function () {
+        Route::get('/', Patients::class)
+            ->name('patients');
+        Route::get('/{id}', Record::class)
+            ->name('record');
+    });
 });
 
+// Fallback method
 
+/* Route::fallback(function () {
+    // ...
+}); */
 
 
 require __DIR__ . '/auth.php';

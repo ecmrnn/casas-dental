@@ -18,6 +18,9 @@ class Patients extends Component
     public $lastName = '';
     #[Validate]
     public $contactNumber;
+    public $address = '';
+    #[Validate]
+    public $email = '';
 
     #[Validate]
     public $selectedFirstName;
@@ -26,6 +29,9 @@ class Patients extends Component
     #[Validate]
     public $selectedContactNumber;
     public $selectedId;
+    public $selectedAddress;
+    #[Validate]
+    public $selectedEmail;
 
     public $search = '';
 
@@ -39,7 +45,9 @@ class Patients extends Component
             'contactNumber' => 'required|digits:9|numeric',
             'selectedFirstName' => 'required|min:2',
             'selectedLastName' => 'required|min:2',
-            'selectedContactNumber' => 'required|digits:9|numeric'
+            'selectedContactNumber' => 'required|digits:9|numeric',
+            'email' => 'sometimes|nullable|email',
+            'selectedEmail' => 'sometimes|nullable|email',
         ];
     }
 
@@ -52,6 +60,7 @@ class Patients extends Component
             'lastName.min' => ':attribute is too short.',
             'contactNumber.required' => ':attribute is missing.',
             'contactNumber.numeric' => ':attribute cannot contain letters.',
+            'email.email' => ':attribute invalid email format.',
 
             'selectedFirstName.required' => ':attribute is missing.',
             'selectedFirstName.min' => ':attribute is too short.',
@@ -59,6 +68,7 @@ class Patients extends Component
             'selectedLastName.min' => ':attribute is too short.',
             'selectedContactNumber.required' => ':attribute is missing.',
             'selectedContactNumber.numeric' => ':attribute cannot contain letters.',
+            'selectedEmail.email' => ':attribute invalid email format.',
 
         ];
     }
@@ -89,6 +99,8 @@ class Patients extends Component
         $this->selectedFirstName = $patient->first_name;
         $this->selectedLastName = $patient->last_name;
         $this->selectedContactNumber = substr($patient->contact_number, 2);
+        $this->selectedAddress = $patient->address;
+        $this->selectedEmail = $patient->email;
         $this->dispatch('open-modal', name: 'action-modal');
     }
 
@@ -105,7 +117,7 @@ class Patients extends Component
 
     public function add()
     {
-        $this->reset();
+        $this->reset('firstName', 'lastName', 'contactNumber', 'address', 'email');
         $this->resetErrorBag();
         $this->dispatch('open-modal', name: 'add-patient');
     }
@@ -116,6 +128,7 @@ class Patients extends Component
             'selectedFirstName' => 'required|min:2',
             'selectedLastName' => 'required|min:2',
             'selectedContactNumber' => 'required|digits:9|numeric',
+            'selectedEmail' => 'sometimes|nullable|email'
         ]);
 
         $patient = Patient::find($id);
@@ -124,6 +137,8 @@ class Patients extends Component
             $patient->first_name = $this->selectedFirstName;
             $patient->last_name = $this->selectedLastName;
             $patient->contact_number = '09' . $this->selectedContactNumber;
+            $patient->address = $this->selectedAddress;
+            $patient->email = $this->selectedEmail;
             $patient->save();
             session()->flash('success', 'Patient updated!');
         } else {
@@ -139,12 +154,15 @@ class Patients extends Component
             'firstName' => 'required|min:2',
             'lastName' => 'required|min:2',
             'contactNumber' => 'required|digits:9|numeric',
+            'email' => 'sometimes|nullable|email'
         ]);
 
         Patient::create([
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
             'contact_number' => '09' . $this->contactNumber,
+            'address' => $this->address,
+            'email' => $this->email,
         ]);
 
         session()->flash('success', 'Patient added!');
