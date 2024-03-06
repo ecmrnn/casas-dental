@@ -1,8 +1,8 @@
 <div>
     <x-slot name="header">
         {{ __('Records') }}
+        
     </x-slot>
-
     @if (session('success'))
         <x-message-success message="{{session('success')}}" />
     @endif
@@ -66,12 +66,12 @@
             <p><a wire:navigate class="text-primary/50" href="{{ route('patients') }}">My Patients</a> &nbsp;&gt;&nbsp; <span class="capitalize text-primary/100">{{ $patient->first_name . " " . $patient->last_name }}</sp></p>
         </div>
 
-        @if ($records == 0)
+        @if (count($records) == 0)
             @if ($search !== '')
                 <div class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">😥</p>
                     <p class="mt-4 text-center poppins-bold text-2xl leading-none">Not Found!</p>
-                    <p class="mt-1 text-center opacity-50">'{{ $search }}' is not in the list.</p>
+                    <p class="mt-1 text-center opacity-50">Record with '{{ $search }}' is not in the list.</p>
                 </div>
             @else
                 <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
@@ -82,45 +82,178 @@
             @endif
         @else
             {{-- Desktop Records --}}
+            <div class="hidden md:block">
+                <x-table>
+                    <x-slot name="header">
+                        <th class="pl-5 py-3 w-20 text-left bg-primary/10 rounded-s-lg"></th>
+                        <th class="py-3 text-left bg-primary/10">Date & Time of Visit</th>
+                        <th class="py-3 md:w-1/3 text-left bg-primary/10">Purpose</th>
+                        <th class="py-3 text-left bg-primary/10">Status</th>
+                        <th class="py-3 text-left bg-primary/10">Your Note</th>
+                        <th class="py-3 text-left bg-primary/10 rounded-e-lg"></th>
+                    </x-slot>
+            
+                    <tbody>
+                        @foreach ($records as $record)
+                            <tr key="{{ $record->id }}">
+                                <td class="pl-2 border-y border-l rounded-s-lg border-gray-200">
+                                    <div class="w-[50px] h-[40px] grid place-items-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-29.7 21.5-50.85Q139-768 168-768h185.643q14.349 0 27.353 5Q394-758 405-747l75 75h312q29.7 0 50.85 21.15Q864-629.7 864-600v336q0 29-21.15 50.5T792-192H168Zm0-72h624v-336H450l-96-96H168v432Zm0 0v-432 432Zm312-24h288v-21q0-29-44-52t-100.5-23q-56.5 0-100 22.5T480-309v21Zm144.212-144Q654-432 675-453.212q21-21.213 21-51Q696-534 674.788-555q-21.213-21-51-21Q594-576 573-554.788q-21 21.213-21 51Q552-474 573.212-453q21.213 21 51 21Z"/></svg>
+                                    </div>
+                                </td>
+                                <td class="border-y border-gray-200 capitalize">{{ date_format($record->updated_at, "F d, Y") . ' - ' . date_format($record->updated_at, "h:i A") }}</td>
+                                <td class="border-y border-gray-200 capitalize">{{ $record->purpose }}</td>
+                                <td class="border-y border-gray-200 capitalize">{{ $record->status }}</td>
+                                <td class="border-y border-gray-200">
+                                    @if ($record->note == '')
+                                        <span class="opacity-50 text-xs">No note</span>
+                                    @else
+                                        {{ $record->note }}
+                                    @endif
+                                </td>
+                                <td class="border-y border-r border-gray-200 rounded-e-lg flex justify-end">
+                                    <button wire:click="confirmDelete({{ $record->id }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                                    </button>
+                                    <button wire:click="action({{ $record->id }})" class="p-2 m-2 ml-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
+                                    </button>
+                                </td> 
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-table>
+            </div>
 
             {{-- Mobile Records --}}
-            <div class="">
-                <p class="mb-2 text-sm">Scheduled</p>
-                <div class="rounded-lg bg-white border border-gray-200 flex justify-between">
-                    <button class="w-full text-left pl-4">
-                        <div>
-                            
-                        </div>
-    
-                        <div>
-                            <p>Molar Extraction</p>
-                            <p></p>
-                        </div>
-                    </button>
+            <div class="md:hidden space-y-2">
+                @foreach ($records as $record)
+                    <div class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
+                        <button class="w-full text-left flex items-center pr-4 flex-grow">
+                            <div class="p-4">
+                                <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M240-80q-17 0-28.5-11.5T200-120v-280q0-17 11.5-28.5T240-440h40v-184l-80-79q-23-23-23-57t23-57l75-75q12-12 28.5-12t28.5 12q12 12 12 28.5T332-835l-76 75 81 80q11 11 17 26t6 31v183h40q17 0 28.5 11.5T440-400v280q0 17-11.5 28.5T400-80H240Zm320 0q-17 0-28.5-11.5T520-120v-280q0-17 11.5-28.5T560-440h40v-125q-52-14-86-56t-34-99q0-66 47-113t113-47q66 0 113 47t47 113q0 57-34 99t-86 56v125h40q17 0 28.5 11.5T760-400v280q0 17-11.5 28.5T720-80H560Zm80-560q33 0 56.5-23.5T720-720q0-33-23.5-56.5T640-800q-33 0-56.5 23.5T560-720q0 33 23.5 56.5T640-640ZM280-160h80v-200h-80v200Zm320 0h80v-200h-80v200Zm-320 0h80-80Zm320 0h80-80Z"/></svg>
+                            </div>
+        
+                            <div>
+                                <p class="leading-none capitalize">{{ $record->purpose }}</p>
+                                <p class="leading-none text-xs opacity-50 capitalize">{{ $record->status }}: {{ date_format($record->updated_at, "F d, Y") }}</p>
+                            </div>
+                        </button>
 
-                    <button wire:click="action({{ $patient->id }})" class="p-2 m-2 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
-                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
-                    </button>
-                </div>
-
-                <p class="my-2 text-sm">Completed</p>
-                <div class="rounded-lg bg-white border border-gray-200 flex justify-between">
-                    <button class="w-full text-left pl-4">
-                        <div>
-                            
-                        </div>
-    
-                        <div>
-                            <p>Molar Extraction</p>
-                            <p></p>
-                        </div>
-                    </button>
-
-                    <button wire:click="action({{ $patient->id }})" class="p-2 m-2 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
-                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
-                    </button>
-                </div>
+                        <button wire:click="action({{ $patient->id }})" class="p-2 m-2 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                            <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
+                        </button>
+                    </div>
+                @endforeach
+                {{ $records->links(data: ['scrollTo' => false]) }}
             </div>
         @endif
+
+        {{-- Add Record --}}
+        <x-modal name="add-record" :show="$errors->isNotEmpty()" focusable>
+            <form wire:submit="save" class="relative overflow-hidden" autocomplete="off">
+
+                <div x-data class="flex items-center justify-between border-b border-gray-200">
+                    <h2 class="p-5 text-lg poppins-bold font-medium flex items-center gap-5">
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M720-520h-80q-17 0-28.5-11.5T600-560q0-17 11.5-28.5T640-600h80v-80q0-17 11.5-28.5T760-720q17 0 28.5 11.5T800-680v80h80q17 0 28.5 11.5T920-560q0 17-11.5 28.5T880-520h-80v80q0 17-11.5 28.5T760-400q-17 0-28.5-11.5T720-440v-80Zm-360 40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-240v-32q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v32q0 33-23.5 56.5T600-160H120q-33 0-56.5-23.5T40-240Zm80 0h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+                        {{ __('Add Record') }}
+                    </h2>
+                    <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>
+                    </button>
+                </div>
+
+
+                <div class="p-5 bg-gray-50/90 space-y-2">
+                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                        <x-input-label for="purpose" value="{{ __('Purpose') }}" />
+                        <x-text-input
+                            wire:model.live.debounce.500ms="purpose"
+                            type="text"
+                            name="purpose"
+                            id="purpose"
+                            class="block w-full focus-visible:outline-none"
+                            placeholder="Molar Extraction"
+                            required autofocus autocomplete="purpose" />
+                        <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
+                    </div>
+                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                        <x-input-label for="status" value="{{ __('Status') }}" />
+                        <select wire:model.live="status" class="p-0 w-full border-0 border-b-2 border-transparent outline-none" name="status" id="status">
+                            <option value="scheduled">Scheduled</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                    </div>
+
+                    @if ($status == 'scheduled')
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                            <input 
+                                type="date"
+                                name="scheduleDate"
+                                id="scheduleDate"
+                                min="{{ date('Y-m-d') }}"
+                                required
+                                class="p-0 w-full border-0 border-b-2 border-transparent">
+                            <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
+                        </div>
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                            <input 
+                                type="time"
+                                name="scheduleTime"
+                                id="scheduleTime"
+                                min="8:00"
+                                max="17:00"
+                                value="08:00"
+                                required
+                                class="p-0 w-full border-0 border-b-2 border-transparent">
+                            <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
+                        </div>
+                    </div>                      
+                    @endif
+
+                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                        <x-input-label for="note" value="{{ __('My Note') }}" />
+                        <textarea 
+                            wire:model.live.debounce.500ms="note"
+                            type="text"
+                            name="note"
+                            id="note"
+                            class="p-0 m-0 min-h-20 block w-full focus-visible:outline-none border-0"
+                            placeholder="Write a short note about your record..."
+                            row="10"
+                        ></textarea>
+                        <x-input-error :messages="$errors->get('note')" class="mt-2" />
+                    </div>
+                </div>
+
+                <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        {{ __('Cancel') }}
+                    </x-secondary-button>
+
+                    <x-primary-button wire:loading.attr="disabled" type="submit" class="flex items-center gap-3">
+                        <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M444-444H276q-15.3 0-25.65-10.289-10.35-10.29-10.35-25.5Q240-495 250.35-505.5 260.7-516 276-516h168v-168q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q495-720 505.5-709.65 516-699.3 516-684v168h168q15.3 0 25.65 10.289 10.35 10.29 10.35 25.5Q720-465 709.65-454.5 699.3-444 684-444H516v168q0 15.3-10.289 25.65-10.29 10.35-25.5 10.35Q465-240 454.5-250.35 444-260.7 444-276v-168Z"/></svg>
+                        {{ __('Add Record') }}
+                    </x-primary-button>
+                </div>
+            </form>
+
+            <div
+                class="absolute inset-0 w-full h-full bg-white rounded-ss-lg rounded-se-lg sm:rounded-lg"
+                wire:loading.delay.longer
+                wire:loading.grid
+                wire:target="save"> 
+                <div class="h-full w-full grid place-items-center">
+                    <div>
+                        <p class="poppins-bold text-xl text-center">Adding Record ✏️</p>
+                        <p class="text-center">Please wait...</p>
+                    </div>
+                </div>
+            </div>
+        </x-modal>
     </section>
 </div>
