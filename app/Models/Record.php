@@ -16,5 +16,7 @@ class Record extends Model
         'purpose',
         'status',
         'note',
+        'schedule_date',
+        'schedule_time',
     ];
 }
