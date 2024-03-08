@@ -22,19 +22,10 @@ class Record extends Component
     public $scheduleDate = null;
     #[Validate]
     public $scheduleTime = null;
-    public $selectedId = '';
 
     public Patient $patient;
     public ModelsRecord $selectedRecord;
     public $search = '';
-
-    #[Validate]
-    public $selectedPurpose;
-    #[Validate]
-    public $selectedNote;
-    public $selectedStatus;
-    public $selectedDate;
-    public $selectedTime;
 
     // Validation methods
 
@@ -46,9 +37,6 @@ class Record extends Component
             'note' => 'nullable|max:40',
             'scheduleDate' => 'nullable',
             'scheduleTime' => 'nullable',
-
-            'selectedPurpose' => 'required|min:2',
-            'selectedNote' => 'nullable|max:40',
         ];
     }
 
@@ -58,9 +46,6 @@ class Record extends Component
             'purpose.required' => ':attribute is missing.',
             'purpose.min' => ':attribute is too short.',
             'status.required' => ':attribute is missing.',
-
-            'selectedPurpose.required' => ':attribute is missing.',
-            'selectedPurpose.min' => ':attribute is too short.',
         ];
     }
 
@@ -70,14 +55,11 @@ class Record extends Component
             'purpose' => 'Purpose',
             'status' => 'Status',
             'note' => 'Note',
-            'selectedPurpose' => 'Purpose',
-            'selectedNote' => 'Note',
         ];
     }
 
     public function mount($id)
     {
-        // dd("2024-03-07" <= date('Y-m-d'));
         $this->patient = Patient::findOrFail($id);
 
         if (count(ModelsRecord::all()) == 0) {
@@ -103,11 +85,13 @@ class Record extends Component
         $this->dispatch('open-modal', name: 'view-record-modal');
     }
 
-    public function action($id)
+    public function action(ModelsRecord $record)
     {
         $this->resetErrorBag();
+        $this->selectedRecord = $record;
+        $this->purpose = $this->selectedRecord->purpose;
+        $this->note = $this->selectedRecord->note;
         $this->dispatch('open-modal', name: 'action-modal');
-        $this->selectedRecord = ModelsRecord::find($id);
     }
 
     public function completeConfirm()
@@ -127,7 +111,45 @@ class Record extends Component
     public function add()
     {
         $this->resetErrorBag();
+        $this->reset('purpose', 'note');
         $this->dispatch('open-modal', name: 'add-record');
+    }
+
+    public function update()
+    {
+        $this->validate([
+            'purpose' => 'required|min:2',
+            'status' => 'required',
+            'note' => 'nullable',
+        ]);
+
+        $record = ModelsRecord::find($this->selectedRecord->id);
+
+        if ($record) {
+            $record->purpose = $this->purpose;
+            $record->note = $this->note;
+
+            $record->save();
+            session()->flash('success', 'Record updated!');
+        } else {
+            session()->flash('error', 'Record not found!');
+        }
+
+        return $this->redirect("/patients/{$this->patient->id}", navigate: true);
+    }
+
+    public function confirmDelete()
+    {
+        $this->dispatch('open-modal-confirm', name: 'delete-confirm');
+    }
+
+    public function delete()
+    {
+        $record = ModelsRecord::find($this->selectedRecord->id);
+        $record->delete();
+
+        session()->flash('success', 'Record deleted!');
+        return $this->redirect("/patients/{$this->patient->id}", navigate: true);
     }
 
     public function save()
@@ -149,7 +171,7 @@ class Record extends Component
 
         session()->flash('success', 'Record added!');
 
-        return $this->redirect('/patients/' . $this->patient->id . '/', navigate: true);
+        return $this->redirect("/patients/{$this->patient->id}", navigate: true);
     }
 
     public function render()
@@ -166,9 +188,8 @@ class Record extends Component
                 ->orWhere('updated_at', 'like', "%{$this->search}%");
         })
             ->orderByDesc('status')
-            ->orderByDesc('schedule_time')
+            ->orderBy('schedule_time')
             ->orderByDesc('schedule_date')
-            ->orderByDesc('updated_at')
             ->paginate(10);
 
         return view('livewire.patients.record', [
