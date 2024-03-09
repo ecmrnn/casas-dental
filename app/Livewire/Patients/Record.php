@@ -60,6 +60,8 @@ class Record extends Component
 
     public function mount($id)
     {
+        // Schedule                 Current Date
+        // dd("2024-03-09 23:00:00" > date('Y-m-d h:i:s'));
         $this->patient = Patient::findOrFail($id);
 
         if (count(ModelsRecord::all()) == 0) {
@@ -160,6 +162,14 @@ class Record extends Component
             'note' => 'nullable',
         ]);
 
+        $completedAt = null;
+
+        if ($this->scheduleDate == null) {
+            $completedAt = date('Y-m-d H:i:s');
+        }
+
+        // dd($completedAt);
+
         ModelsRecord::create([
             'patient_id' => $this->patient->id,
             'purpose' => $this->purpose,
@@ -167,6 +177,7 @@ class Record extends Component
             'note' => $this->note,
             'schedule_date' => $this->scheduleDate,
             'schedule_time' => $this->scheduleTime,
+            'completed_at' => $completedAt,
         ]);
 
         session()->flash('success', 'Record added!');
@@ -188,8 +199,7 @@ class Record extends Component
                 ->orWhere('updated_at', 'like', "%{$this->search}%");
         })
             ->orderByDesc('status')
-            ->orderBy('schedule_time')
-            ->orderByDesc('schedule_date')
+            ->orderByDesc('updated_at')
             ->paginate(10);
 
         return view('livewire.patients.record', [

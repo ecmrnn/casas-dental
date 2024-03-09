@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             $table->date('schedule_date')->nullable();
             $table->time('schedule_time')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

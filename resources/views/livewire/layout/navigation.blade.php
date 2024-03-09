@@ -16,7 +16,7 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-white max-h-screen sticky top-0 border-b border-gray-200 lg:border-0">
+<nav x-data="{ open: false }" class="bg-white max-h-screen sticky top-0 border-b border-gray-200 lg:border-0 z-50">
     <!-- Primary Navigation Menu -->
     <div>
         <div class="h-auto lg:h-screen flex lg:flex-col items-center justify-between border-r border-gray-200">
