@@ -19,9 +19,9 @@ class Record extends Component
     #[Validate]
     public $note = '';
     #[Validate]
-    public $scheduleDate = null;
+    public $scheduleDate = '';
     #[Validate]
-    public $scheduleTime = null;
+    public $scheduleTime = '';
 
     public Patient $patient;
     public ModelsRecord $selectedRecord;
@@ -105,6 +105,7 @@ class Record extends Component
     {
         $record = ModelsRecord::find($this->selectedRecord->id);
         $record->status = 'completed';
+        $record->completed_at = date("Y-m-d H:i:s");
         $record->save();
         session()->flash('success', 'Record completed!');
         return $this->redirect("/patients/{$this->patient->id}", navigate: true);
@@ -161,14 +162,13 @@ class Record extends Component
             'status' => 'required',
             'note' => 'nullable',
         ]);
-
         $completedAt = null;
 
-        if ($this->scheduleDate == null) {
-            $completedAt = date('Y-m-d H:i:s');
+        if ($this->status == 'completed') {
+            $completedAt = date("Y-m-d H:i:s");
+            $this->scheduleDate = $completedAt;
+            $this->scheduleTime = $completedAt;
         }
-
-        // dd($completedAt);
 
         ModelsRecord::create([
             'patient_id' => $this->patient->id,
@@ -199,7 +199,9 @@ class Record extends Component
                 ->orWhere('updated_at', 'like', "%{$this->search}%");
         })
             ->orderByDesc('status')
-            ->orderByDesc('updated_at')
+            ->orderByDesc('completed_at')
+            ->orderBy('schedule_date')
+            ->orderBy('schedule_time')
             ->paginate(10);
 
         return view('livewire.patients.record', [

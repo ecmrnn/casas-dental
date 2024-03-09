@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('purpose')->required();
             $table->string('status')->required()->default('scheduled');
             $table->string('note')->nullable();
-            $table->date('schedule_date')->nullable();
-            $table->time('schedule_time')->nullable();
+            $table->date('schedule_date')->default(date("Y-m-d"));
+            $table->time('schedule_time')->default(date("H:i:s"));
             $table->dateTime('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
