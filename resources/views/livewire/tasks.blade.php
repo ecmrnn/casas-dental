@@ -190,7 +190,7 @@
             </div>
 
             <div class="p-5">
-                <p>Are you sure the task <span class="capitalize">'{{ $selectedTitle }}'</span> is already completed?</p>
+                <p>Are you sure the task <span class="capitalize border-b-2 border-gray-200">{{ $selectedTitle }}</span> is already completed?</p>
             </div>
 
             <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">

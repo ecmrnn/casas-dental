@@ -85,34 +85,65 @@
             <div class="hidden md:block">
                 <x-table>
                     <x-slot name="header">
-                        <th class="pl-5 py-3 w-20 text-left bg-primary/10 rounded-s-lg"></th>
-                        <th class="py-3 text-left bg-primary/10">Date & Time of Visit</th>
-                        <th class="py-3 md:w-1/3 text-left bg-primary/10">Purpose</th>
+                        <th class="w-[24px] text-left bg-primary/10 rounded-s-lg"></th>
+                        <th class="py-3 text-left bg-primary/10">Purpose</th>
+                        <th class="py-3 text-left md:w-1/3 bg-primary/10">Your Note</th>
                         <th class="py-3 text-left bg-primary/10">Status</th>
-                        <th class="py-3 text-left bg-primary/10">Your Note</th>
+                        <th class="py-3 text-left bg-primary/10">Date & Time of Visit</th>
                         <th class="py-3 text-left bg-primary/10 rounded-e-lg"></th>
                     </x-slot>
             
                     <tbody>
                         @foreach ($records as $record)
                             <tr key="{{ $record->id }}">
-                                <td class="pl-2 border-y border-l rounded-s-lg border-gray-200">
-                                    <div class="w-[50px] h-[40px] grid place-items-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-29.7 21.5-50.85Q139-768 168-768h185.643q14.349 0 27.353 5Q394-758 405-747l75 75h312q29.7 0 50.85 21.15Q864-629.7 864-600v336q0 29-21.15 50.5T792-192H168Zm0-72h624v-336H450l-96-96H168v432Zm0 0v-432 432Zm312-24h288v-21q0-29-44-52t-100.5-23q-56.5 0-100 22.5T480-309v21Zm144.212-144Q654-432 675-453.212q21-21.213 21-51Q696-534 674.788-555q-21.213-21-51-21Q594-576 573-554.788q-21 21.213-21 51Q552-474 573.212-453q21.213 21 51 21Z"/></svg>
-                                    </div>
+                                <td class="border-y border-l rounded-s-lg border-gray-200">
+                                    @if ($record->status !== 'completed')
+                                        @if ($record->status == 'scheduled')
+                                            @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
+                                                <div class="w-[10px] m-4 aspect-square rounded-full bg-orange-400">
+                                                </div>
+                                            @else
+                                                <div class="w-[10px] m-4 aspect-square rounded-full bg-red-500">
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @else
+                                        <div class="w-[10px] m-4 aspect-square rounded-full bg-green-400">
+                                        </div>
+                                    @endif
                                 </td>
-                                <td class="border-y border-gray-200 capitalize">{{ date_format($record->updated_at, "F d, Y") . ' - ' . date_format($record->updated_at, "h:i A") }}</td>
                                 <td class="border-y border-gray-200 capitalize">{{ $record->purpose }}</td>
-                                <td class="border-y border-gray-200 capitalize">{{ $record->status }}</td>
                                 <td class="border-y border-gray-200">
                                     @if ($record->note == '')
-                                        <span class="opacity-50 text-xs">No note</span>
+                                        <span class="opacity-20">No note</span>
                                     @else
                                         {{ $record->note }}
                                     @endif
                                 </td>
+                                <td class="border-y border-gray-200 capitalize">
+                                    @if ($record->status == "completed")
+                                        {{ $record->status }} 
+                                    @else
+                                        @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
+                                            {{ $record->status }}   
+                                        @else
+                                            {{ __("Late") }}
+                                        @endif
+                                    @endif
+                                </td>
+                                <td class="border-y border-gray-200 capitalize">
+                                    @if ($record->status == 'completed')
+                                        {{ date("F d, Y - h:i A", strtotime($record->completed_at)) }}
+                                    @else
+                                        {{ date("F d, Y", strtotime($record->schedule_date)) . " - " . date("h:i A", strtotime($record->schedule_time))}}
+                                    @endif
+                                </td>
                                 <td class="border-y border-r border-gray-200 rounded-e-lg flex justify-end">
-                                    <button wire:click="confirmDelete({{ $record->id }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                    <button wire:click="viewRecord({{ $record }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
+                                        {{-- <p>View Record</p> --}}
+                                    </button>
+                                    <button wire:click="confirmDelete({{ $record }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                                     </button>
                                     <button wire:click="action({{ $record->id }})" class="p-2 m-2 ml-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
@@ -210,34 +241,34 @@
                     </div>
 
                     @if ($status == 'scheduled')
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                            <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
-                            <input 
-                                wire:model.live.debounce.500ms="scheduleDate"
-                                type="date"
-                                name="scheduleDate"
-                                id="scheduleDate"
-                                min="{{ date('Y-m-d') }}"
-                                required
-                                class="p-0 w-full border-0 border-b-2 border-transparent">
-                            <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
-                        </div>
-                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                            <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
-                            <input 
-                                wire:model.live.debounce.500ms="scheduleTime"
-                                type="time"
-                                name="scheduleTime"
-                                id="scheduleTime"
-                                {{-- min="8:00"
-                                max="17:00" --}}
-                                value="08:00"
-                                required
-                                class="p-0 w-full border-0 border-b-2 border-transparent">
-                            <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
-                        </div>
-                    </div>                      
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleDate"
+                                    type="date"
+                                    name="scheduleDate"
+                                    id="scheduleDate"
+                                    min="{{ date('Y-m-d') }}"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                            </div>
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleTime"
+                                    type="time"
+                                    name="scheduleTime"
+                                    id="scheduleTime"
+                                    {{-- min="8:00"
+                                    max="17:00" --}}
+                                    value="08:00"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                            </div>
+                        </div>                      
                     @endif
 
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
@@ -309,6 +340,34 @@
                             required autofocus autocomplete="username" />
                         <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
                     </div>
+                    @if ($selectedRecord->status == 'scheduled')
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleDate"
+                                    type="date"
+                                    name="scheduleDate"
+                                    id="scheduleDate"
+                                    min="{{ date('Y-m-d') }}"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                            </div>
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleTime"
+                                    type="time"
+                                    name="scheduleTime"
+                                    id="scheduleTime"
+                                    value="{{ $scheduleTime }}"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                            </div>
+                        </div>  
+                    @endif
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                         <x-input-label for="selectedNote" value="{{ __('My Note') }}" />
                         <textarea 
@@ -328,7 +387,7 @@
                 {{-- Action buttons --}}
                 <div class="p-5 grid gap-5 grid-cols-2">
                     <x-secondary-button wire:click="update">{{ __('Update Record') }}</x-secondary-button>
-                    <x-danger-button wire:click="confirmDelete" type="button" class="flex items-center gap-5">
+                    <x-danger-button wire:click="confirmDelete({{ $selectedRecord }})" type="button" class="flex items-center gap-5">
                         <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
                         {{ __('Delete Record') }}
                     </x-danger-button>
@@ -456,7 +515,7 @@
                 </div>
 
                 <div class="p-5">
-                    <p>Are you sure you want to remove <span class="capitalize">'{{ $selectedRecord->purpose }}'</span> of <span class="capitalize">{{ $patient->first_name }}</span>?</p>
+                    <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> of <span class="capitalize">{{ $patient->first_name }}</span>?</p>
                 </div>
 
                 <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">

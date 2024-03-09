@@ -307,7 +307,7 @@
                 </div>
 
                 <div class="p-5">
-                    <p>Are you sure you want to remove <span class="capitalize">'{{ $selectedFirstName . " " . $selectedLastName}}'</span>?</p>
+                    <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedFirstName . " " . $selectedLastName}}</span>?</p>
                 </div>
 
                 <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">

@@ -93,6 +93,8 @@ class Record extends Component
         $this->selectedRecord = $record;
         $this->purpose = $this->selectedRecord->purpose;
         $this->note = $this->selectedRecord->note;
+        $this->scheduleDate = $this->selectedRecord->schedule_date;
+        $this->scheduleTime = date('H:i', strtotime($this->selectedRecord->schedule_time));
         $this->dispatch('open-modal', name: 'action-modal');
     }
 
@@ -114,7 +116,7 @@ class Record extends Component
     public function add()
     {
         $this->resetErrorBag();
-        $this->reset('purpose', 'note');
+        $this->reset('purpose', 'note', 'scheduleDate', 'scheduleTime');
         $this->dispatch('open-modal', name: 'add-record');
     }
 
@@ -131,6 +133,8 @@ class Record extends Component
         if ($record) {
             $record->purpose = $this->purpose;
             $record->note = $this->note;
+            $record->schedule_date = $this->scheduleDate;
+            $record->schedule_time = $this->scheduleTime;
 
             $record->save();
             session()->flash('success', 'Record updated!');
@@ -141,8 +145,9 @@ class Record extends Component
         return $this->redirect("/patients/{$this->patient->id}", navigate: true);
     }
 
-    public function confirmDelete()
+    public function confirmDelete(ModelsRecord $record)
     {
+        $this->selectedRecord = $record;
         $this->dispatch('open-modal-confirm', name: 'delete-confirm');
     }
 
