@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        {{ __('Records') }}
+        {{ __('Patients') }}
     </x-slot>
 
     @if (session('success'))
@@ -48,11 +48,11 @@
             <div class="hidden md:block">
                 <x-table>
                     <x-slot name="header">
-                        <th class="pl-5 py-3 w-20 text-left bg-primary/10 rounded-s-lg"></th>
-                        <th class="py-3 md:w-1/3 text-left bg-primary/10">Patient Name</th>
-                        <th class="py-3 text-left bg-primary/10">Contact Number</th>
-                        <th class="py-3 text-left bg-primary/10">Date Added</th>
-                        <th class="py-3 text-left bg-primary/10 rounded-e-lg"></th>
+                        <th class="pl-5 py-3 w-20 text-left bg-primary/5 rounded-s-lg"></th>
+                        <th class="py-3 md:w-1/3 text-left bg-primary/5">Patient Name</th>
+                        <th class="py-3 text-left bg-primary/5">Contact Number</th>
+                        <th class="py-3 text-left bg-primary/5">Date Added</th>
+                        <th class="py-3 text-left bg-primary/5 rounded-e-lg"></th>
                     </x-slot>
             
                     <tbody>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Dashboard;
 
 use App\Models\Task;
 use Livewire\Attributes\Validate;
@@ -133,7 +133,7 @@ class Tasks extends Component
     public function render()
     {
         $tasks = Task::where('status', 'incomplete')->simplePaginate(4);
-        return view('livewire.tasks', [
+        return view('livewire.dashboard.tasks', [
             'tasks' => $tasks
         ]);
     }

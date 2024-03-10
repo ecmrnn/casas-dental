@@ -14,7 +14,7 @@
                 <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">🎊</p>
                     <p class="mt-2 text-center poppins-bold text-2xl leading-none">Hooray!</p>
-                    <p class="text-center opacity-50">No tasks, click here to add one.</p>
+                    <p class="text-center opacity-50">No tasks, click here to add one</p>
                 </button>
             @else    
                 <div class="space-y-1">

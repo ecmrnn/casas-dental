@@ -4,9 +4,6 @@ namespace App\Livewire\Patients;
 
 use App\Models\Patient;
 use App\Models\Record as ModelsRecord;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -77,8 +74,8 @@ class Record extends Component
                 'schedule_time' => '08:00:00',
             ]);
         } else {
-            $this->selectedRecord = ModelsRecord::findOrFail(1);
         }
+        $this->selectedRecord = ModelsRecord::findOrFail(1);
     }
 
     public function viewRecord(ModelsRecord $record)

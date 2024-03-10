@@ -1,7 +1,6 @@
 <?php
 
-// use App\Livewire\Patients\Patients;
-
+use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Patients;
 use App\Livewire\Patients\Record;
 use Illuminate\Support\Facades\Route;
@@ -33,12 +32,12 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')
-        ->name('dashboard');
     Route::view('profile', 'profile')
         ->name('profile');
 
     // Livewire components
+    Route::get('/dashboard', Dashboard::class)
+        ->name('dashboard');
     Route::prefix('patients')->group(function () {
         Route::get('/', Patients::class)
             ->name('patients');

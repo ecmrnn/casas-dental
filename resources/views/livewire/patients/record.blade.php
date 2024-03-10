@@ -85,12 +85,12 @@
             <div class="hidden md:block">
                 <x-table>
                     <x-slot name="header">
-                        <th class="w-[24px] text-left bg-primary/10 rounded-s-lg"></th>
-                        <th class="py-3 text-left bg-primary/10">Purpose</th>
-                        <th class="py-3 text-left md:w-1/3 bg-primary/10">Your Note</th>
-                        <th class="py-3 text-left bg-primary/10">Status</th>
-                        <th class="py-3 text-left bg-primary/10">Date & Time of Visit</th>
-                        <th class="py-3 text-left bg-primary/10 rounded-e-lg"></th>
+                        <th class="w-[24px] text-left bg-primary/5 rounded-s-lg"></th>
+                        <th class="py-3 text-left bg-primary/5">Purpose</th>
+                        <th class="py-3 text-left md:w-1/3 bg-primary/5">Your Note</th>
+                        <th class="py-3 text-left bg-primary/5">Status</th>
+                        <th class="py-3 text-left bg-primary/5">Date & Time</th>
+                        <th class="py-3 text-left bg-primary/5 rounded-e-lg"></th>
                     </x-slot>
             
                     <tbody>
@@ -312,117 +312,117 @@
             </div>
         </x-modal>
 
-        {{-- Edit or Delete Record --}}
-        <x-modal name="action-modal">
-            <form autocomplete="off">
-                <div x-data class="flex items-center justify-between border-b border-gray-200">
-                    <div class="pl-5 sm:p-5 flex items-center gap-3">
-                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
-                        <p class="capitalize poppins-bold">Record Details</p>
-                    </div>
-                    <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>
-                    </button>
-                </div>
-
-                {{-- Patient information --}}
-                <div class="p-5 space-y-2 border-b border-gray-200 bg-gray-50/90">
-                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                        <x-input-label for="selectedPurpose" :value="__('Purpose')" />
-                        <x-text-input
-                            value="{{ $purpose }}"
-                            wire:model.live.debounce.500ms="purpose"
-                            id="selectedPurpose"
-                            class="block w-full focus-visible:outline-none"
-                            type="text"
-                            name="selectedPurpose"
-                            placeholder="Purpose"
-                            required autofocus autocomplete="username" />
-                        <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
-                    </div>
-                    @if ($selectedRecord->status == 'scheduled')
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
-                                <input 
-                                    wire:model.live.debounce.500ms="scheduleDate"
-                                    type="date"
-                                    name="scheduleDate"
-                                    id="scheduleDate"
-                                    min="{{ date('Y-m-d') }}"
-                                    required
-                                    class="p-0 w-full border-0 border-b-2 border-transparent">
-                                <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
-                            </div>
-                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
-                                <input 
-                                    wire:model.live.debounce.500ms="scheduleTime"
-                                    type="time"
-                                    name="scheduleTime"
-                                    id="scheduleTime"
-                                    value="{{ $scheduleTime }}"
-                                    required
-                                    class="p-0 w-full border-0 border-b-2 border-transparent">
-                                <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
-                            </div>
-                        </div>  
-                    @endif
-                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                        <x-input-label for="selectedNote" value="{{ __('My Note') }}" />
-                        <textarea 
-                            value="{{ $note }}"
-                            wire:model.live.debounce.500ms="note"
-                            type="text"
-                            name="selectedNote"
-                            id="selectedNote"
-                            class="p-0 m-0 min-h-20 block w-full focus-visible:outline-none border-0"
-                            placeholder="Write a short note about your record..."
-                            row="10"
-                        ></textarea>
-                        <x-input-error :messages="$errors->get('note')" class="mt-2" />
-                    </div>
-                </div>
-                
-                {{-- Action buttons --}}
-                <div class="p-5 grid gap-5 grid-cols-2">
-                    <x-secondary-button wire:click="update">{{ __('Update Record') }}</x-secondary-button>
-                    <x-danger-button wire:click="confirmDelete({{ $selectedRecord }})" type="button" class="flex items-center gap-5">
-                        <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                        {{ __('Delete Record') }}
-                    </x-danger-button>
-                </div>
-
-                <div
-                    class="absolute inset-0 w-full h-full bg-white rounded-ss-lg rounded-se-lg sm:rounded-lg"
-                    wire:loading.delay.longer
-                    wire:loading.grid
-                    wire:target="delete">
-                    <div class="h-full w-full grid place-items-center">
-                        <div>
-                            <p class="poppins-bold text-xl text-center">Removing Record 🤸</p>
-                            <p class="text-center">Please wait...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="absolute inset-0 w-full h-full bg-white rounded-ss-lg rounded-se-lg sm:rounded-lg"
-                    wire:loading.delay.longer
-                    wire:loading.grid
-                    wire:target="update"> 
-                    <div class="h-full w-full grid place-items-center">
-                        <div>
-                            <p class="poppins-bold text-xl text-center">Updating Record 💾</p>
-                            <p class="text-center">Please wait...</p>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </x-modal>
-
-        {{-- View Record --}}
         @if ($selectedRecord)
+            {{-- Edit or Delete Record --}}
+            <x-modal name="action-modal">
+                <form autocomplete="off">
+                    <div x-data class="flex items-center justify-between border-b border-gray-200">
+                        <div class="pl-5 sm:p-5 flex items-center gap-3">
+                            <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
+                            <p class="capitalize poppins-bold">Record Details</p>
+                        </div>
+                        <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>
+                        </button>
+                    </div>
+
+                    {{-- Patient information --}}
+                    <div class="p-5 space-y-2 border-b border-gray-200 bg-gray-50/90">
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="selectedPurpose" :value="__('Purpose')" />
+                            <x-text-input
+                                value="{{ $purpose }}"
+                                wire:model.live.debounce.500ms="purpose"
+                                id="selectedPurpose"
+                                class="block w-full focus-visible:outline-none"
+                                type="text"
+                                name="selectedPurpose"
+                                placeholder="Purpose"
+                                required autofocus autocomplete="username" />
+                            <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
+                        </div>
+                        @if ($selectedRecord->status == 'scheduled')
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                    <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                                    <input 
+                                        wire:model.live.debounce.500ms="scheduleDate"
+                                        type="date"
+                                        name="scheduleDate"
+                                        id="scheduleDate"
+                                        min="{{ date('Y-m-d') }}"
+                                        required
+                                        class="p-0 w-full border-0 border-b-2 border-transparent">
+                                    <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                                </div>
+                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                    <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                                    <input 
+                                        wire:model.live.debounce.500ms="scheduleTime"
+                                        type="time"
+                                        name="scheduleTime"
+                                        id="scheduleTime"
+                                        value="{{ $scheduleTime }}"
+                                        required
+                                        class="p-0 w-full border-0 border-b-2 border-transparent">
+                                    <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                                </div>
+                            </div>  
+                        @endif
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="selectedNote" value="{{ __('My Note') }}" />
+                            <textarea 
+                                value="{{ $note }}"
+                                wire:model.live.debounce.500ms="note"
+                                type="text"
+                                name="selectedNote"
+                                id="selectedNote"
+                                class="p-0 m-0 min-h-20 block w-full focus-visible:outline-none border-0"
+                                placeholder="Write a short note about your record..."
+                                row="10"
+                            ></textarea>
+                            <x-input-error :messages="$errors->get('note')" class="mt-2" />
+                        </div>
+                    </div>
+                    
+                    {{-- Action buttons --}}
+                    <div class="p-5 grid gap-5 grid-cols-2">
+                        <x-secondary-button wire:click="update">{{ __('Update Record') }}</x-secondary-button>
+                        <x-danger-button wire:click="confirmDelete({{ $selectedRecord }})" type="button" class="flex items-center gap-5">
+                            <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                            {{ __('Delete Record') }}
+                        </x-danger-button>
+                    </div>
+
+                    <div
+                        class="absolute inset-0 w-full h-full bg-white rounded-ss-lg rounded-se-lg sm:rounded-lg"
+                        wire:loading.delay.longer
+                        wire:loading.grid
+                        wire:target="delete">
+                        <div class="h-full w-full grid place-items-center">
+                            <div>
+                                <p class="poppins-bold text-xl text-center">Removing Record 🤸</p>
+                                <p class="text-center">Please wait...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute inset-0 w-full h-full bg-white rounded-ss-lg rounded-se-lg sm:rounded-lg"
+                        wire:loading.delay.longer
+                        wire:loading.grid
+                        wire:target="update"> 
+                        <div class="h-full w-full grid place-items-center">
+                            <div>
+                                <p class="poppins-bold text-xl text-center">Updating Record 💾</p>
+                                <p class="text-center">Please wait...</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </x-modal>
+
+            {{-- View Record --}}
             <x-modal name="view-record-modal">
                 <form autocomplete="off">
                     <div x-data class="flex items-center justify-between border-b border-gray-200">
