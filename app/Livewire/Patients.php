@@ -85,23 +85,6 @@ class Patients extends Component
         ];
     }
 
-    public function mount()
-    {
-        if (count(Record::all()) == 0) {
-            /* 
-                Creates a dummy record if the records table is empty
-            */
-            Record::create([
-                'patient_id' => 0,
-                'purpose' => 'test',
-                'status' => 'test',
-                'note' => 'this is a dummy record',
-                'schedule_date' => '2024/01/01',
-                'schedule_time' => '08:00:00',
-            ]);
-        }
-    }
-
     // Record Methods
 
     public function action($id)

@@ -11,6 +11,20 @@ class Patient extends Model
     use SoftDeletes;
     use HasFactory;
 
+    public function records()
+    {
+        return $this->hasMany(Record::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($patient) {
+            $patient->records()->delete();
+        });
+    }
+
     protected $fillable = [
         'first_name',
         'last_name',

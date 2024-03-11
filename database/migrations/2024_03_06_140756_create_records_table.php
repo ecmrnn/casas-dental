@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->integer('patient_id')->required();
+            $table->foreignId('patient_id')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('purpose')->required();
             $table->string('status')->required()->default('scheduled');
             $table->string('note')->nullable();

@@ -57,25 +57,9 @@ class Record extends Component
 
     public function mount($id)
     {
-        // Schedule                 Current Date
-        // dd("2024-03-09 23:00:00" > date('Y-m-d h:i:s'));
         $this->patient = Patient::findOrFail($id);
-
-        if (count(ModelsRecord::all()) == 0) {
-            /* 
-                Creates a dummy record if the records table is empty
-            */
-            ModelsRecord::create([
-                'patient_id' => 1,
-                'purpose' => 'test',
-                'status' => 'test',
-                'note' => 'this is a dummy record',
-                'schedule_date' => '2024/01/01',
-                'schedule_time' => '08:00:00',
-            ]);
-        } else {
-        }
-        $this->selectedRecord = ModelsRecord::findOrFail(1);
+        // $this->selectedRecord = ModelsRecord::findOrFail($id);
+        // dd($id);
     }
 
     public function viewRecord(ModelsRecord $record)
