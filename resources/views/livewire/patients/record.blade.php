@@ -88,8 +88,8 @@
                         <th class="w-[24px] text-left bg-primary/5 rounded-s-lg"></th>
                         <th class="py-3 text-left bg-primary/5">Purpose</th>
                         <th class="py-3 text-left md:w-1/3 bg-primary/5">Your Note</th>
-                        <th class="py-3 text-left bg-primary/5">Status</th>
-                        <th class="py-3 text-left bg-primary/5">Date & Time</th>
+                        <th class="p-3 text-left bg-primary/5">Status</th>
+                        <th class="p-3 text-left bg-primary/5">Date & Time</th>
                         <th class="py-3 text-left bg-primary/5 rounded-e-lg"></th>
                     </x-slot>
             
@@ -141,7 +141,6 @@
                                 <td class="border-y border-r border-gray-200 rounded-e-lg flex justify-end">
                                     <button wire:click="viewRecord({{ $record }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
-                                        {{-- <p>View Record</p> --}}
                                     </button>
                                     <button wire:click="confirmDelete({{ $record }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
@@ -498,7 +497,7 @@
                 </div>
 
                 <div class="p-5">
-                    <p>Are you sure <span>{{ $patient->first_name }}'s</span> <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> was already completed?</p>
+                    <p>Are you sure <span class="capitalize">{{ $patient->first_name }}'s</span> <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> was already completed?</p>
                 </div>
 
                 <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
