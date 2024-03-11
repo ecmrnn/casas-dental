@@ -78,6 +78,7 @@
                         @endforeach
                     </tbody>
                 </x-table>
+                {{ $patients->links(data: ['scrollTo' => false]) }}
             </div>
 
             {{-- Mobile List --}}
@@ -99,7 +100,7 @@
                             </button>
                         </div>
                     @endforeach
-
+                    {{ $patients->links(data: ['scrollTo' => false]) }}
                 </div>
             </div>
             @endif

@@ -88,8 +88,8 @@
                         <th class="w-[24px] text-left bg-primary/5 rounded-s-lg"></th>
                         <th class="py-3 text-left bg-primary/5">Purpose</th>
                         <th class="py-3 text-left md:w-1/3 bg-primary/5">Your Note</th>
-                        <th class="p-3 text-left bg-primary/5">Status</th>
-                        <th class="p-3 text-left bg-primary/5">Date & Time</th>
+                        <th class="py-3 text-left bg-primary/5">Status</th>
+                        <th class="py-3 text-left bg-primary/5">Date & Time</th>
                         <th class="py-3 text-left bg-primary/5 rounded-e-lg"></th>
                     </x-slot>
             
@@ -120,7 +120,7 @@
                                         {{ $record->note }}
                                     @endif
                                 </td>
-                                <td class="border-y border-gray-200 capitalize">
+                                <td class="border-y pr-3 border-gray-200 capitalize">
                                     @if ($record->status == "completed")
                                         {{ $record->status }} 
                                     @else
@@ -153,6 +153,7 @@
                         @endforeach
                     </tbody>
                 </x-table>
+                {{ $records->links(data: ['scrollTo' => false]) }}
             </div>
 
             {{-- Mobile Records --}}
@@ -311,9 +312,9 @@
             </div>
         </x-modal>
 
-        @if ($selectedRecord)
-            {{-- Edit or Delete Record --}}
-            <x-modal name="action-modal">
+        {{-- Edit or Delete Record --}}
+        <x-modal name="action-modal">
+            @if ($selectedRecord)
                 <form autocomplete="off">
                     <div x-data class="flex items-center justify-between border-b border-gray-200">
                         <div class="pl-5 sm:p-5 flex items-center gap-3">
@@ -419,112 +420,118 @@
                         </div>
                     </div>
                 </form>
-            </x-modal>
+            @endif
+        </x-modal>
 
             {{-- View Record --}}
             <x-modal name="view-record-modal">
-                <form autocomplete="off">
-                    <div x-data class="flex items-center justify-between border-b border-gray-200">
-                        <div class="pl-5 sm:p-5 flex items-center gap-3">
-                            <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
-                            <p class="capitalize poppins-bold">Record Details</p>
-                        </div>
-                        <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>
-                        </button>
-                    </div>  
+                @if ($selectedRecord)
+                    <form autocomplete="off">
+                        <div x-data class="flex items-center justify-between border-b border-gray-200">
+                            <div class="pl-5 sm:p-5 flex items-center gap-3">
+                                <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
+                                <p class="capitalize poppins-bold">Record Details</p>
+                            </div>
+                            <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z"/></svg>
+                            </button>
+                        </div>  
 
-                    {{-- Patient information --}}
-                    <div class="p-5 rounded-lg space-y-2 border-gray-200 bg-gray-50/90">
-                        <div class="p-3 rounded-lg border border-gray-200 bg-white">
-                            <p class="text-xs opacity-50">Purpose</p>
-                            <h3 class="poppins-bold text-xl leading-none capitalize">{{ $selectedRecord->purpose }}</h3>
-                        </div>
-                        <div class="p-3 rounded-lg border border-gray-200 bg-white">
-                            
-                            <p class="capitalize leading-none">
-                                <span class="opacity-50">Status:</span>
-                                @if ($selectedRecord->status == 'completed')
-                                    {{ $selectedRecord->status }} 
-                                @else
-                                    @if ($selectedRecord->schedule_date . " " . $selectedRecord->schedule_time > date('Y-m-d H:i:s'))
+                        {{-- Patient information --}}
+                        <div class="p-5 rounded-lg space-y-2 border-gray-200 bg-gray-50/90">
+                            <div class="p-3 rounded-lg border border-gray-200 bg-white">
+                                <p class="text-xs opacity-50">Purpose</p>
+                                <h3 class="poppins-bold text-xl leading-none capitalize">{{ $selectedRecord->purpose }}</h3>
+                            </div>
+                            <div class="p-3 rounded-lg border border-gray-200 bg-white">
+                                
+                                <p class="capitalize leading-none">
+                                    <span class="opacity-50">Status:</span>
+                                    @if ($selectedRecord->status == 'completed')
                                         {{ $selectedRecord->status }} 
                                     @else
-                                        {{ __("Late") }}
+                                        @if ($selectedRecord->schedule_date . " " . $selectedRecord->schedule_time > date('Y-m-d H:i:s'))
+                                            {{ $selectedRecord->status }} 
+                                        @else
+                                            {{ __("Late") }}
+                                        @endif
                                     @endif
-                                @endif
-                            </p>
-                            <p>
-                                @if ($selectedRecord->status == "scheduled")
-                                    <span class="opacity-50">Schedule:</span>
-                                    {{ date("F d, Y", strtotime($selectedRecord->schedule_date)) . " at " . date("h:i A", strtotime($selectedRecord->schedule_time)) }}
-                                @else
-                                    <span class="opacity-50">On:</span>
-                                    {{ date("F d, Y", strtotime($selectedRecord->updated_at)) . " at " . date("h:i A", strtotime($selectedRecord->updated_at)) }}
-                                @endif
-                            </p>
-                        </div>
-
-                        <div class="p-3 min-h-40 rounded-lg border border-gray-200 bg-white">
-                            <p class="text-xs opacity-50">Note</p>
-                            @if ($selectedRecord->note == '')
-                                <p class="opacity-50">You have no note.</p>
-                            @else
-                                <p>{{ $selectedRecord->note }}</p>
-                            @endif
-                        </div>
-
-                    </div>
-
-                    @if ($selectedRecord->status !== 'completed')
-                        <div class="p-5 border-t border-gray-200">
-                            <div class="flex justify-end">
-                                <x-primary-button type="button" wire:click="completeConfirm" type="button" class="flex items-center gap-3">
-                                    <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m400-416 236-236q11-11 28-11t28 11q11 11 11 28t-11 28L428-332q-12 12-28 12t-28-12L268-436q-11-11-11-28t11-28q11-11 28-11t28 11l76 76Z"/></svg>
-                                    {{ __('Record Complete') }}
-                                </x-primary-button>
+                                </p>
+                                <p>
+                                    @if ($selectedRecord->status == "scheduled")
+                                        <span class="opacity-50">Schedule:</span>
+                                        {{ date("F d, Y", strtotime($selectedRecord->schedule_date)) . " at " . date("h:i A", strtotime($selectedRecord->schedule_time)) }}
+                                    @else
+                                        <span class="opacity-50">On:</span>
+                                        {{ date("F d, Y", strtotime($selectedRecord->updated_at)) . " at " . date("h:i A", strtotime($selectedRecord->updated_at)) }}
+                                    @endif
+                                </p>
                             </div>
+
+                            <div class="p-3 min-h-40 rounded-lg border border-gray-200 bg-white">
+                                <p class="text-xs opacity-50">Note</p>
+                                @if ($selectedRecord->note == '')
+                                    <p class="opacity-50">You have no note.</p>
+                                @else
+                                    <p>{{ $selectedRecord->note }}</p>
+                                @endif
+                            </div>
+
                         </div>
-                    @endif
-                </form>
+
+                        @if ($selectedRecord->status !== 'completed')
+                            <div class="p-5 border-t border-gray-200">
+                                <div class="flex justify-end">
+                                    <x-primary-button type="button" wire:click="completeConfirm" type="button" class="flex items-center gap-3">
+                                        <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m400-416 236-236q11-11 28-11t28 11q11 11 11 28t-11 28L428-332q-12 12-28 12t-28-12L268-436q-11-11-11-28t11-28q11-11 28-11t28 11l76 76Z"/></svg>
+                                        {{ __('Record Complete') }}
+                                    </x-primary-button>
+                                </div>
+                            </div>
+                        @endif
+                    </form>
+                @endif
             </x-modal>  
             
             {{-- Complete Confirm --}}
             <x-modal-confirmation name="complete-confirm">
-                <div class="p-5 flex gap-5 items-center border-b border-gray-200">
-                    <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
-                    <p>Record Completed?</p>
-                </div>
+                @if ($selectedRecord)
+                    <div class="p-5 flex gap-5 items-center border-b border-gray-200">
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
+                        <p>Record Completed?</p>
+                    </div>
 
-                <div class="p-5">
-                    <p>Are you sure <span class="capitalize">{{ $patient->first_name }}'s</span> <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> was already completed?</p>
-                </div>
+                    <div class="p-5">
+                        <p>Are you sure <span class="capitalize">{{ $patient->first_name }}'s</span> <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> was already completed?</p>
+                    </div>
 
-                <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
-                    <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
-                    <x-primary-button x-on:click="show = false" wire:click="complete">Yes, done!</x-primary-button>
-                </div>
+                    <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
+                        <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
+                        <x-primary-button x-on:click="show = false" wire:click="complete">Yes, done!</x-primary-button>
+                    </div>
+                @endif
             </x-modal-confirmation>
 
             {{-- Delete Confirm --}}
             <x-modal-confirmation name="delete-confirm">
-                <div class="p-5 flex gap-5 items-center border-b border-gray-200">
-                    <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
-                    <p>Removing Patient</p>
-                </div>
+                @if ($selectedRecord)
+                    <div class="p-5 flex gap-5 items-center border-b border-gray-200">
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
+                        <p>Removing Patient</p>
+                    </div>
 
-                <div class="p-5">
-                    <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> of <span class="capitalize">{{ $patient->first_name }}</span>?</p>
-                </div>
+                    <div class="p-5">
+                        <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedRecord->purpose }}</span> of <span class="capitalize">{{ $patient->first_name }}</span>?</p>
+                    </div>
 
-                <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
-                    <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
-                    <x-danger-button x-on:click="show = false" wire:click="delete" class="flex items-center gap-5">
-                        <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                        Yes, remove
-                    </x-danger-button>
-                </div>
+                    <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
+                        <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
+                        <x-danger-button x-on:click="show = false" wire:click="delete" class="flex items-center gap-5">
+                            <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                            Yes, remove
+                        </x-danger-button>
+                    </div>
+                @endif
             </x-modal-confirmation>
-        @endif
     </section>
 </div>

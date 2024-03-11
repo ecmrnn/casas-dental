@@ -132,7 +132,7 @@ class Tasks extends Component
 
     public function render()
     {
-        $tasks = Task::where('status', 'incomplete')->simplePaginate(4);
+        $tasks = Task::where('status', 'incomplete')->simplePaginate(5);
         return view('livewire.dashboard.tasks', [
             'tasks' => $tasks
         ]);

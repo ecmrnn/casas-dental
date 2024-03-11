@@ -32,10 +32,10 @@
                     <div>
                         <p class="leading-none text-center xl:text-left text-sm">Patients <br class="sm:hidden"> Today</p>
                         <p class="leading-noen text-center xl:text-left text-2xl">
-                            @if (count($scheduled) == 0)
+                            @if ($scheduledTotal == 0)
                                 {{ __('...') }}
                             @else
-                                {{ sprintf('%03d', count($scheduled)) }}
+                                {{ sprintf('%03d', $scheduledTotal) }}
                             @endif
                         </p>
                     </div>
@@ -120,6 +120,7 @@
                                 @endforeach
                             </tbody>
                         </x-table>
+                        {{ $scheduled->links(data: ['scrollTo' => false]) }}
                     </div>
 
                     {{-- Mobile --}}

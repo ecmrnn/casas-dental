@@ -6,9 +6,13 @@ use App\Models\Patient;
 use App\Models\Record as ModelsRecord;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class Record extends Component
 {
+    use WithPagination, WithoutUrlPagination;
+
     #[Validate]
     public $purpose = '';
     #[Validate]
@@ -58,8 +62,6 @@ class Record extends Component
     public function mount($id)
     {
         $this->patient = Patient::findOrFail($id);
-        // $this->selectedRecord = ModelsRecord::findOrFail($id);
-        // dd($id);
     }
 
     public function viewRecord(ModelsRecord $record)
@@ -188,7 +190,7 @@ class Record extends Component
             ->orderByDesc('completed_at')
             ->orderBy('schedule_date')
             ->orderBy('schedule_time')
-            ->paginate(10);
+            ->simplePaginate(10);
 
         return view('livewire.patients.record', [
             'patient' => $this->patient,

@@ -6,9 +6,13 @@ use Livewire\Component;
 use App\Models\Patient;
 use App\Models\Record;
 use Illuminate\Support\Facades\DB;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
+    use WithPagination, WithoutUrlPagination;
+
     public $patientId;
     public $recordId;
     public $firstName;
@@ -16,6 +20,7 @@ class Dashboard extends Component
     public $note;
     public $scheduleDate;
     public $scheduleTime;
+    public $scheduledTotal;
 
     public function completeConfirm()
     {
@@ -57,6 +62,7 @@ class Dashboard extends Component
             ->where('records.deleted_at', null)
             ->orderBy('schedule_time')
             ->paginate(10);
+        $this->scheduledTotal = $scheduled->total();
 
         $late = Record::where('status', 'scheduled')
             ->where('schedule_date', '<=', date('Y-m-d'))

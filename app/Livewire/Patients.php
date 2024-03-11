@@ -6,11 +6,12 @@ use App\Models\Patient;
 use App\Models\Record;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
 class Patients extends Component
 {
-    use WithPagination;
+    use WithPagination, WithoutUrlPagination;
 
     #[Validate]
     public $firstName = '';
@@ -187,7 +188,7 @@ class Patients extends Component
             ->orWhere('last_name', 'like', "%{$this->search}%")
             ->orWhere('contact_number', 'like', "%{$this->search}%")
             ->orderBy('first_name')
-            ->paginate(10);
+            ->simplePaginate(10);
 
         return view('livewire.patients.patients', [
             'patients' => $patients,
