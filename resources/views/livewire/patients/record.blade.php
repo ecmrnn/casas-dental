@@ -164,15 +164,15 @@
                             @if ($record->status !== 'completed')
                                 @if ($record->status == 'scheduled')
                                     @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
-                                        <div class="w-[12px] m-4 mx-5 aspect-square rounded-sm bg-orange-400">
+                                        <div class="w-[12px] m-4 mx-5 aspect-square rounded-full bg-orange-400">
                                         </div>
                                     @else
-                                        <div class="w-[12px] m-4 mx-5 aspect-square rounded-sm bg-red-500">
+                                        <div class="w-[12px] m-4 mx-5 aspect-square rounded-full bg-red-500">
                                         </div>
                                     @endif
                                 @endif
                             @else
-                                <div class="w-[12px] m-4 mx-5 aspect-square rounded-sm bg-green-400">
+                                <div class="w-[12px] m-4 mx-5 aspect-square rounded-full bg-green-400">
                                 </div>
                             @endif
         
@@ -209,7 +209,7 @@
 
                 <div x-data class="flex items-center justify-between border-b border-gray-200">
                     <h2 class="p-5 text-lg poppins-bold font-medium flex items-center gap-5">
-                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M720-520h-80q-17 0-28.5-11.5T600-560q0-17 11.5-28.5T640-600h80v-80q0-17 11.5-28.5T760-720q17 0 28.5 11.5T800-680v80h80q17 0 28.5 11.5T920-560q0 17-11.5 28.5T880-520h-80v80q0 17-11.5 28.5T760-400q-17 0-28.5-11.5T720-440v-80Zm-360 40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-240v-32q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v32q0 33-23.5 56.5T600-160H120q-33 0-56.5-23.5T40-240Zm80 0h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+                        <svg class="fill-primary" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-160v-441q0-33 24-56t57-23h439q33 0 56.5 23.5T880-600v320L680-80H360q-33 0-56.5-23.5T280-160ZM81-710q-6-33 13-59.5t52-32.5l434-77q33-6 59.5 13t32.5 52l10 54h-82l-7-40-433 77 40 226v279q-16-9-27.5-24T158-276L81-710Zm279 110v440h280l160-160v-280H360Zm220 220Zm-40 160h80v-120h120v-80H620v-120h-80v120H420v80h120v120Z"/></svg>
                         {{ __('Add Record') }}
                     </h2>
                     <button type="button" x-on:click="show = false" class="p-2 m-3 sm:hidden border border-transparent rounded-lg hover:border-gray-200 hover:bg-gray-50">
@@ -226,7 +226,7 @@
                             type="text"
                             name="purpose"
                             id="purpose"
-                            class="block w-full focus-visible:outline-none"
+                            class="block w-full focus-visible:outline-none capitalize"
                             placeholder="Molar Extraction"
                             required autofocus autocomplete="purpose" />
                         <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
@@ -334,7 +334,7 @@
                                 value="{{ $purpose }}"
                                 wire:model.live.debounce.500ms="purpose"
                                 id="selectedPurpose"
-                                class="block w-full focus-visible:outline-none"
+                                class="block w-full focus-visible:outline-none capitalize"
                                 type="text"
                                 name="selectedPurpose"
                                 placeholder="Purpose"
@@ -497,7 +497,7 @@
             <x-modal-confirmation name="complete-confirm">
                 @if ($selectedRecord)
                     <div class="p-5 flex gap-5 items-center border-b border-gray-200">
-                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-280q17 0 28.5-11.5T520-320v-160q0-17-11.5-28.5T480-520q-17 0-28.5 11.5T440-480v160q0 17 11.5 28.5T480-280Zm0-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
                         <p>Record Completed?</p>
                     </div>
 
@@ -517,7 +517,7 @@
                 @if ($selectedRecord)
                     <div class="p-5 flex gap-5 items-center border-b border-gray-200">
                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M78-99q-11.483 0-19.894-5.625Q49.696-110.25 46-118q-5.167-6.6-5.583-16.8Q40-145 46-154l403-695q5-9 13.5-13.5T480-867q9 0 17.5 4.5T512-849l403 695q5 9 4.583 19.2-.416 10.2-4.583 16.8-5.044 7.4-13.522 13.2Q893-99 883-99H78Zm63-73h678L480-757 141-172Zm343.86-52q15.14 0 25.64-10.658t10.5-25.5Q521-275 510.325-286q-10.676-11-25.816-11-15.141 0-25.825 10.95Q448-275.099 448-259.825q0 14.85 10.86 25.337Q469.719-224 484.86-224Zm0-122q15.14 0 25.64-10.625T521-383v-153q0-14.775-10.675-25.388Q499.649-572 484.509-572q-15.141 0-25.825 10.612Q448-550.775 448-536v153q0 15.75 10.86 26.375Q469.719-346 484.86-346ZM480-465Z"/></svg>
-                        <p>Removing Patient</p>
+                        <p>Removing Schedule</p>
                     </div>
 
                     <div class="p-5">

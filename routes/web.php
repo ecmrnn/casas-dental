@@ -3,6 +3,7 @@
 use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Patients;
 use App\Livewire\Patients\Record;
+use App\Livewire\Settings\Settings;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -44,6 +45,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{id}', Record::class)
             ->name('record');
     });
+    Route::get('/settings', Settings::class)
+        ->name('settings');
 });
 
 // Fallback method

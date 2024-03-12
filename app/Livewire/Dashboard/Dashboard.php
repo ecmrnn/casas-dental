@@ -67,9 +67,11 @@ class Dashboard extends Component
         $late = Record::where('status', 'scheduled')
             ->where('schedule_date', '<=', date('Y-m-d'))
             ->where('schedule_time', '<', date('H:i:s'))
+            ->orWhere(function ($query) {
+                $query->where('status', 'scheduled')
+                    ->where('schedule_date', '<', date('Y-m-d'));
+            })
             ->get();
-
-        // dd($scheduled);
 
         return view('livewire.dashboard.dashboard', [
             'patients' => $patients,
