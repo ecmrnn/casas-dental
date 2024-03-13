@@ -59,8 +59,8 @@
                     @foreach ($patients as $patient)
                         <tr key="{{ $patient->id }}">
                             <td class="pl-2 border-y border-l rounded-s-lg border-gray-200">
-                                <a wire:navigate href="{{ route('record', ['id' => $patient->id]) }}" class="w-[50px] h-[40px] grid place-items-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-29.7 21.5-50.85Q139-768 168-768h185.643q14.349 0 27.353 5Q394-758 405-747l75 75h312q29.7 0 50.85 21.15Q864-629.7 864-600v336q0 29-21.15 50.5T792-192H168Zm0-72h624v-336H450l-96-96H168v432Zm0 0v-432 432Zm312-24h288v-21q0-29-44-52t-100.5-23q-56.5 0-100 22.5T480-309v21Zm144.212-144Q654-432 675-453.212q21-21.213 21-51Q696-534 674.788-555q-21.213-21-51-21Q594-576 573-554.788q-21 21.213-21 51Q552-474 573.212-453q21.213 21 51 21Z"/></svg>
+                                <a wire:navigate href="{{ route('record', ['id' => $patient->id]) }}" class="w-[50px] h-[40px] grid place-items-center rounded-lg border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
+                                    <svg class="fill-orange-400" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-30 21.5-51t50.5-21h216l96 96h312q30 0 51 21t21 51v336q0 29-21 50.5T792-192H168Z"/></svg>
                                 </a>
                             </td>
                             <td class="border-y border-gray-200 capitalize">{{ $patient->first_name . " " . $patient->last_name }}</td>

@@ -23,8 +23,8 @@
                             key="{{$task->id}}"
                             wire:click="viewTask({{ $task->id }})"
                             class="block text-left w-full p-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:cursor-pointer hover:bg-gray-50 transition-all ease-in-out duration-200">
-                            <h3 class="text-lg leading-none">{{ $task->title }}</h3>
-                            <p class="mb-3 line-clamp-3">{{ $task->description}}</p>
+                            <h3 class="text-md poppins-bold leading-none">{{ $task->title }}</h3>
+                            <p class="my-3 leading-tight text-sm line-clamp-3">{{ $task->description}}</p>
                             <p class="text-sm opacity-50">{{ date_format($task->created_at, 'h:i A') }} - {{ date_format($task->created_at, 'F d, Y') }}</p>
                         </button>
                     @endforeach
@@ -113,12 +113,12 @@
                 </h2>
                 <div class="p-5 bg-gray-50/90 space-y-2">
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                        <x-input-label for="title" value="{{ __('Title') }}" />
+                        <x-input-label for="selectedTitle" value="{{ __('Title') }}" />
                         <x-text-input
                             wire:model.live.debounce.500ms="selectedTitle"
                             type="text"
-                            name="title"
-                            id="title"
+                            name="selectedTitle"
+                            id="selectedTitle"
                             value="{{ $selectedTitle }}"
                             class="block w-full focus-visible:outline-none"
                             placeholder="Task title goes here..."
@@ -126,12 +126,12 @@
                         <x-input-error :messages="$errors->get('selectedTitle')" class="mt-2" />
                     </div>
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                        <x-input-label for="description" value="{{ __('Description') }}" />
+                        <x-input-label for="selectedDescription" value="{{ __('Description') }}" />
                         <textarea
                             wire:model.live.debounce.500ms="selectedDescription"
                             type="text"
-                            name="description"
-                            id="description"
+                            name="selectedDescription"
+                            id="selectedDescription"
                             value="{{ $selectedDescription }}"
                             class="p-0 m-0 min-h-20 block w-full focus-visible:outline-none border-0"
                             placeholder="Write a short description about your task..."
