@@ -16,7 +16,7 @@
     <body class="lg:flex">
         <livewire:layout.navigation />
 
-        <main class="mb-14 sm:mb-0 md:p-5 lg:p-10 overflow-scroll w-full bg-gray-50/90">
+        <main class="mb-14 sm:mb-0 md:p-5 lg:p-10 overflow-auto w-full bg-gray-50/90">
             <!-- Page Heading -->
             @if (isset($header))
             <header class="mb-5 sm:mb-10">

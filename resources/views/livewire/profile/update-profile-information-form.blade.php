@@ -65,7 +65,7 @@ new class extends Component
 
 <section>
     <header>
-        <h2 class="text-lg font-medium">
+        <h2 class="text-lg font-medium poppins-bold">
             {{ __('Profile Information') }}
         </h2>
 
@@ -74,16 +74,16 @@ new class extends Component
         </p>
     </header>
 
-    <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
-        <div>
+    <form wire:submit="updateProfileInformation" class="mt-6 space-y-2">
+        <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required autofocus autocomplete="name" />
+            <x-text-input wire:model="name" id="name" name="name" type="text" class="block w-full" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <div>
+        <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required autocomplete="username" />
+            <x-text-input wire:model="email" id="email" name="email" type="email" class="block w-full" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
@@ -105,12 +105,14 @@ new class extends Component
             @endif
         </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+        <div class="flex w-full items-center justify-between gap-4 sm:flex-row-reverse">
+            <div>
+                <x-action-message class="me-3" on="profile-updated">
+                    {{ __('Saved.') }}
+                </x-action-message>
+            </div>
 
-            <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved.') }}
-            </x-action-message>
+            <x-primary-button>{{ __('Update Profile') }}</x-primary-button>
         </div>
     </form>
 </section>

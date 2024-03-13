@@ -10,7 +10,7 @@
         @endif
 
         {{-- Dashboard Content --}}
-        <section class="p-5 flex flex-col md:p-0 w-full xl:col-span-2">
+        <section class="p-5 pt-0 flex flex-col md:p-0 w-full xl:col-span-2">
 
             {{-- Cards --}}
             <div class="w-full mb-5 gap-2 grid grid-cols-3 xl:gap-10">
@@ -111,7 +111,7 @@
                                                 <p class="opacity-20">No note</p>
                                             @endif
                                         </td>
-                                        <td class="py-2 px-5 border-y border-r border-gray-200 rounded-e-lg text-right">
+                                        <td class="p-2 border-y border-r border-gray-200 rounded-e-lg text-right">
                                             <button wire:click="viewRecord({{ $record->rid }}, '{{ $record->first_name }}', {{ $record->id }})" class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm">
                                                 View Schedule
                                             </button>
