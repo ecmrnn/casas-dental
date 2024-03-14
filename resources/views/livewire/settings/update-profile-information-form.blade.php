@@ -11,6 +11,8 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
+    public string $address = '';
+    public string $contact_number = '';
 
     /**
      * Mount the component.
@@ -19,6 +21,8 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->address = Auth::user()->address;
+        $this->contact_number = Auth::user()->contact_number;
     }
 
     /**
@@ -31,6 +35,8 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'address' => ['string', 'min:5', 'max:255'],
+            'contact_number' => 'digits:11|numeric',
         ]);
 
         $user->fill($validated);
@@ -77,13 +83,13 @@ new class extends Component
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-2">
         <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="block w-full" required autofocus autocomplete="name" />
+            <x-text-input wire:model.live.debounce.500="name" id="name" name="name" type="text" class="block w-full capitalize" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" name="email" type="email" class="block w-full" required autocomplete="username" />
+            <x-text-input wire:model.live.debounce.500="email" id="email" name="email" type="email" class="block w-full" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())
@@ -103,6 +109,18 @@ new class extends Component
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div class="py-2 px-3 rounded-lg border border-gray-200">
+            <x-input-label for="address" :value="__('Address')" />
+            <x-text-input wire:model.live.debounce.500="address" id="address" name="address" type="text" class="block w-full capitalize" required autofocus autocomplete="address" placeholder="Adress (Optional)" />
+            <x-input-error class="mt-2" :messages="$errors->get('address')" />
+        </div>
+
+        <div class="py-2 px-3 rounded-lg border border-gray-200">
+            <x-input-label for="contact_number" :value="__('Contact Number')" />
+            <x-text-input wire:model.live.debounce.500="contact_number" id="contact_number" name="contact_number" type="text" class="block w-full" required autofocus autocomplete="contact_number" placeholder="Contact Number (Optional)" />
+            <x-input-error class="mt-2" :messages="$errors->get('contact_number')" />
         </div>
 
         <div class="flex w-full items-center justify-between gap-4 sm:flex-row-reverse">

@@ -21,7 +21,7 @@
             @if (isset($header))
             <header class="mb-5 sm:mb-10">
                 <div class="flex justify-between items-center">
-                    <h1 class="p-5 pb-0 md:p-0 poppins-bold font-semibold text-3xl sm:text-4xl leading-none">
+                    <h1 class="p-5 pb-0 md:p-0 poppins-bold font-semibold text-2xl sm:text-4xl leading-none">
                         {{ $header }}
                     </h1>
                     <div class="hidden lg:flex">

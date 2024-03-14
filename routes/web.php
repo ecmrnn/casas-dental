@@ -3,6 +3,7 @@
 use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Patients;
 use App\Livewire\Patients\Record;
+use App\Livewire\Profile\Profile;
 use App\Livewire\Settings\Settings;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -33,9 +34,6 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('profile', 'profile')
-        ->name('profile');
-
     // Livewire components
     Route::get('/dashboard', Dashboard::class)
         ->name('dashboard');
@@ -45,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{id}', Record::class)
             ->name('record');
     });
+    Route::get('/profile', Profile::class)
+        ->name('profile');
     Route::get('/settings', Settings::class)
         ->name('settings');
 });

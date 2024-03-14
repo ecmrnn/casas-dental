@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Task;
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -24,6 +25,12 @@ class Tasks extends Component
     #[Validate]
     public $selectedDescription;
     public $selectedId;
+    public $currentRoute;
+
+    public function mount()
+    {
+        $this->currentRoute = Route::getCurrentRoute()->uri();
+    }
 
     public function rules()
     {
@@ -90,7 +97,7 @@ class Tasks extends Component
 
         session()->flash('success', 'Task added successfully!');
 
-        return $this->redirect('/dashboard', navigate: true);
+        return $this->redirect('/' . $this->currentRoute, navigate: true);
     }
 
     public function update($id)
@@ -110,7 +117,7 @@ class Tasks extends Component
         } else {
             session()->flash('error', 'Task not found!');
         }
-        return $this->redirect('/dashboard', navigate: true);
+        return $this->redirect('/' . $this->currentRoute, navigate: true);
     }
 
     public function completeConfirm()
@@ -127,7 +134,8 @@ class Tasks extends Component
         $task->save();
 
         session()->flash('success', 'Task completed!');
-        return $this->redirect('/dashboard', navigate: true);
+
+        return $this->redirect('/' . $this->currentRoute, navigate: true);
     }
 
     public function render()

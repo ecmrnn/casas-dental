@@ -44,7 +44,7 @@ new #[Layout('layouts.guest')] class extends Component
         <h1 class="mb-5 text-3xl font-bold poppins-bold">Doc. Chona!</h1>
     </hgroup>
 
-    <form wire:submit="login" class="grid gap-5" autocomplete="off">
+    <form wire:submit="login" class="space-y-2" autocomplete="off">
         <!-- Email Address -->
         <div class="py-2 px-3 rounded-lg border border-gray-200">
             <x-input-label for="email" :value="__('Email')" />
@@ -64,13 +64,13 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <div class="flex items-center">
-            {{-- @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
+            @if (Route::has('password.request'))
+                <a class="text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
-            @endif --}}
+            @endif
 
-            <x-primary-button class="w-full">
+            <x-primary-button class="ml-auto">
                 {{ __('Login') }}
             </x-primary-button>
         </div>
