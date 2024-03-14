@@ -44,10 +44,10 @@ new class extends Component
                             <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-29.7 21.5-50.85Q139-768 168-768h185.643q14.349 0 27.353 5Q394-758 405-747l75 75h312q29.7 0 50.85 21.15Q864-629.7 864-600v336q0 29-21.15 50.5T792-192H168Zm0-72h624v-336H450l-96-96H168v432Zm0 0v-432 432Z"/></svg>
                             {{ __('Patients') }}
                         </x-nav-link>
-                        {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate class="flex items-center gap-3">
+                        <x-nav-link :href="route('schedule')" :active="request()->routeIs('schedule')" wire:navigate class="flex items-center gap-3">
                             <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M216-96q-29.7 0-50.85-21.5Q144-139 144-168v-528q0-29 21.15-50.5T216-768h72v-60q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q339-864 349.5-853.65 360-843.3 360-828v60h240v-60q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q651-864 661.5-853.65 672-843.3 672-828v60h72q29.7 0 50.85 21.5Q816-725 816-696v528q0 29-21.15 50.5T744-96H216Zm0-72h528v-360H216v360Zm0-432h528v-96H216v96Zm0 0v-96 96Z"/></svg>
                             {{ __('Schedule') }}
-                        </x-nav-link> --}}
+                        </x-nav-link>
                     </div>
                     <p class="my-5 opacity-50 uppercase text-sm">Account Settings</p>
                     <div class="space-y-1">
@@ -69,7 +69,7 @@ new class extends Component
     <div class="lg:hidden fixed bottom-0 w-full z-40 bg-white">
         <div class="border-t border-gray-200">
 
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-5">
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate class="flex flex-col items-center">
                     @if (request()->routeIs('dashboard'))
                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M563.412-624Q548-624 538-634.35 528-644.7 528-660v-121q0-14.875 10.062-24.938Q548.125-816 563-816h217.588Q796-816 806-805.938q10 10.063 10 24.938v121q0 15.3-10.062 25.65Q795.875-624 781-624H563.412ZM180.143-432q-15.361 0-25.752-10.5Q144-453 144-467v-314q0-14.875 10.391-24.938Q164.782-816 180.143-816H397q14 0 24.5 10.062Q432-795.875 432-781v314q0 14-10.5 24.5T397-432H180.143Zm383.269 288Q548-144 538-154.35 528-164.7 528-180v-312q0-15.3 10.062-25.65Q548.125-528 563-528h217.588Q796-528 806-517.65q10 10.35 10 25.65v312q0 15.3-10.062 25.65Q795.875-144 781-144H563.412Zm-383.269 0q-15.361 0-25.752-10.35Q144-164.7 144-180v-122q0-14.875 10.391-24.938Q164.782-337 180.143-337H397q14 0 24.5 10.062Q432-316.875 432-302v122q0 15.3-10.5 25.65Q411-144 397-144H180.143Z"/></svg>
@@ -85,6 +85,14 @@ new class extends Component
                         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-29.7 21.5-50.85Q139-768 168-768h185.643q14.349 0 27.353 5Q394-758 405-747l75 75h312q29.7 0 50.85 21.15Q864-629.7 864-600v336q0 29-21.15 50.5T792-192H168Zm0-72h624v-336H450l-96-96H168v432Zm0 0v-432 432Z"/></svg>
                     @endif
                     <p class="text-[.65rem]">Patients</p>
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('schedule')" :active="request()->routeIs('schedule')" wire:navigate class="flex flex-col items-center">
+                    @if (request()->routeIs('schedule'))
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Z"/></svg>
+                    @else
+                        <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M216-96q-29.7 0-50.85-21.5Q144-139 144-168v-528q0-29 21.15-50.5T216-768h72v-60q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q339-864 349.5-853.65 360-843.3 360-828v60h240v-60q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q651-864 661.5-853.65 672-843.3 672-828v60h72q29.7 0 50.85 21.5Q816-725 816-696v528q0 29-21.15 50.5T744-96H216Zm0-72h528v-360H216v360Zm0-432h528v-96H216v96Zm0 0v-96 96Z"/></svg>
+                    @endif
+                    <p class="text-[.65rem]">Schedule</p>
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')" wire:navigate class="flex flex-col items-center">
                     @if (request()->routeIs('profile'))

@@ -2,7 +2,6 @@
     <x-slot name="header">
         {{ __('Dashboard') }}
     </x-slot>
-
     
     <div class="grid grid-cols-1 md:gap-10 xl:grid-cols-3">
         @if (session('success'))
