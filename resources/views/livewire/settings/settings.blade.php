@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:m-0 sm:p-5 md:m-5 rounded-lg bg-white border border-red-400 sm:rounded-lg">
+            <div class="p-4 sm:m-0 sm:p-5 rounded-lg bg-white border border-red-400 sm:rounded-lg">
                 <div>
                     <livewire:settings.delete-user-form />
                 </div>
