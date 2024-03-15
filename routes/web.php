@@ -52,8 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Schedule
-    Route::get('/schedule', Schedule::class)
-        ->name('schedule');
+    Route::get('/calendar', Schedule::class)
+        ->name('calendar');
 
     // Profile
     Route::get('/profile', Profile::class)
