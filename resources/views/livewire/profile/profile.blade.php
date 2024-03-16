@@ -85,9 +85,9 @@
                                         <td class="border-y border-gray-200 capitalize">{{ $record->purpose }}</td>
                                         <td class="border-y border-gray-200 capitalize">{{ date('F d, Y', strtotime($record->completed_at)) }}</td>
                                         <td class="p-2 border-y border-r border-gray-200 rounded-e-lg text-right">
-                                            <button wire:click="viewRecord()" class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm">
-                                                View Record
-                                            </button>
+                                            <div class="flex justify-end">
+                                                <livewire:patients.view-patient-record :record="$record" />
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -99,17 +99,21 @@
                     <div class="md:hidden space-y-2">
                         @foreach ($completed as $record)
                             <div class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
-                                <button wire:click="viewRecord()" class="w-full text-left flex items-center pr-4 flex-grow">
-                                    <div class="w-[12px] m-5 aspect-square rounded-full bg-green-500">
+                                <div class="w-full text-left flex items-center justify-between flex-grow">
+                                    <div class="flex items-center">
+                                        <div class="w-[12px] m-5 aspect-square rounded-full bg-green-500">
+                                        </div>
+                    
+                                        <div>
+                                            <p class="leading-none capitalize">{{ $record->first_name . " " . $record->last_name }}</p>
+                                            <p class="text-xs">
+                                                <span class="capitalize">{{ $record->purpose }}</span><span class="opacity-50"> at </span><span>{{ date("F d, Y", strtotime($record->schedule_date)) }}</span>
+                                            </p>
+                                        </div>
                                     </div>
-                
-                                    <div>
-                                        <p class="leading-none capitalize">{{ $record->first_name . " " . $record->last_name }}</p>
-                                        <p class="text-xs">
-                                            <span class="capitalize">{{ $record->purpose }}</span><span class="opacity-50"> at </span><span>{{ date("F d, Y", strtotime($record->schedule_date)) }}</span>
-                                        </p>
-                                    </div>
-                                </button>
+
+                                    <livewire:patients.view-patient-record :record="$record" :isIcon="true" />
+                                </div>
                             </div>
                         @endforeach
                     </div> 

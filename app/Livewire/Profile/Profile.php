@@ -11,7 +11,7 @@ class Profile extends Component
     {
         $completed = DB::table('records')
             ->join('patients', 'records.patient_id', '=', 'patients.id')
-            ->select('*')
+            ->select('*', 'records.id as rid')
             ->where('status', 'completed')
             ->where('records.deleted_at', null)
             ->orderByDesc('completed_at')

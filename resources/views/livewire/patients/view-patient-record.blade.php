@@ -1,14 +1,14 @@
 <div>
     <div>
-        <button wire:click="viewRecord">
+        <button wire:click="viewRecord" class="block">
             @if ($isIcon)
                 <div class="p-2 m-2 rounded-full border border-transparent hover:border-gray-200 hover:bg-gray-50">
                     <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M479.788-192Q450-192 429-213.212q-21-21.213-21-51Q408-294 429.212-315q21.213-21 51-21Q510-336 531-314.788q21 21.213 21 51Q552-234 530.788-213q-21.213 21-51 21Zm0-216Q450-408 429-429.212q-21-21.213-21-51Q408-510 429.212-531q21.213-21 51-21Q510-552 531-530.788q21 21.213 21 51Q552-450 530.788-429q-21.213 21-51 21Zm0-216Q450-624 429-645.212q-21-21.213-21-51Q408-726 429.212-747q21.213-21 51-21Q510-768 531-746.788q21 21.213 21 51Q552-666 530.788-645q-21.213 21-51 21Z"/></svg>
                 </div>
             @else
-            <div class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm">
-                <p>View Record</p>
-            </div>
+                <div class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm">
+                    <p>View Record</p>
+                </div>
             @endif
         </button>
     </div>

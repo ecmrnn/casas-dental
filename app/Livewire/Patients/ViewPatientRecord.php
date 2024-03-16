@@ -3,6 +3,7 @@
 namespace App\Livewire\Patients;
 
 use App\Models\Record;
+use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -21,6 +22,8 @@ class ViewPatientRecord extends Component
     public $modalConfirm;
     public $isIcon = false;
 
+    public $currentRoute;
+
     #[On('view-record')]
     public function mount($record)
     {
@@ -34,6 +37,7 @@ class ViewPatientRecord extends Component
         $this->scheduleTime = $record->schedule_time;
         $this->modalView = 'view-record-modal-' . $this->recordId;
         $this->modalConfirm = 'confirm-record-modal-' . $this->recordId;
+        $this->currentRoute = Route::getCurrentRoute()->uri();
     }
 
     public function viewRecord()
@@ -53,6 +57,7 @@ class ViewPatientRecord extends Component
         $record->completed_at = date("Y-m-d H:i:s");
         $record->save();
         session()->flash('success', 'Record completed!');
-        return $this->redirect("/dashboard", navigate: true);
+
+        return $this->redirect('/' . $this->currentRoute, navigate: true);
     }
 }
