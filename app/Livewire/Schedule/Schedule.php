@@ -6,17 +6,17 @@ use Livewire\Component;
 
 class Schedule extends Component
 {
-    public $selectedDate;
+    public $today;
 
     public function mount()
     {
-        $this->selectedDate = date('F d, Y');
+        $this->today = date('F d, Y');
     }
 
     public function render()
     {
         return view('livewire.schedule.schedule', [
-            'today' => $this->selectedDate,
+            'today' => $this->today,
         ]);
     }
 }

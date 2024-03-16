@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Calendar\Calendar;
 use App\Livewire\Dashboard\Dashboard;
 use App\Livewire\Patients;
 use App\Livewire\Patients\Record;
@@ -52,7 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // Schedule
-    Route::get('/calendar', Schedule::class)
+    Route::get('/calendar', Calendar::class)
         ->name('calendar');
 
     // Profile

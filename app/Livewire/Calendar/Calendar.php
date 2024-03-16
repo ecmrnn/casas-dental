@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Livewire\Schedule;
+namespace App\Livewire\Calendar;
 
 use Carbon\Carbon;
-use Cron\MonthField;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -24,7 +23,7 @@ class Calendar extends Component
     public $lastDate;
     public $selectedDate;
 
-    public function boot()
+    public function mount()
     {
         $carbon = new Carbon();
         $this->year = $carbon->now()->year;
@@ -40,7 +39,7 @@ class Calendar extends Component
 
         $this->firstDay = $carbon->create($this->year, $this->month)->dayOfWeek;
         $this->lastDate = $carbon->create($this->year, $this->month)->lastOfMonth()->day;
-        $this->selectedDate = date_format($carbon->create($this->year, $this->month), 'Y-m-d');
+        $this->selectedDate = date_format($carbon->now(), 'F j, Y');
     }
 
     public function navigateMonth($month, $year)
@@ -59,7 +58,6 @@ class Calendar extends Component
 
         $this->firstDay = $carbon->create($this->year, $this->month)->dayOfWeek;
         $this->lastDate = $carbon->create($this->year, $this->month)->lastOfMonth()->day;
-        $this->selectedDate = date_format($carbon->create($this->year, $this->month), 'Y-m-d');
     }
 
     public function today()
@@ -67,6 +65,22 @@ class Calendar extends Component
         $carbon = new Carbon();
         $this->year = $carbon->now()->year;
         $this->month = $carbon->now()->month;
+        $this->monthName = $carbon->create($this->year, $this->month)->monthName;
+
+        $this->prevMonth = $carbon->create($this->year, $this->month - 1, 1)->month;
+        $this->prevMonthName = $carbon->create($this->year, $this->prevMonth)->monthName;
+        $this->endOfPrevMonth = $carbon->create($this->year, $this->prevMonth)->lastOfMonth()->day;
+
+        $this->nextMonth = $carbon->create($this->year, $this->month + 1, 1)->month;
+        $this->nextMonthName = $carbon->create($this->year, $this->nextMonth)->monthName;
+
+        $this->firstDay = $carbon->create($this->year, $this->month)->dayOfWeek;
+        $this->lastDate = $carbon->create($this->year, $this->month)->lastOfMonth()->day;
+    }
+
+    public function showDate($date)
+    {
+        $this->selectedDate = date('F j, Y', strtotime($date));
     }
 
     public function render()
@@ -76,7 +90,7 @@ class Calendar extends Component
             ->select('*', 'records.id AS rid')
             ->where('status', 'scheduled')
             ->where('records.deleted_at', null)
-            ->orderByDesc('schedule_time')
+            ->orderBy('schedule_time')
             ->get();
 
         $days = [];
@@ -91,7 +105,7 @@ class Calendar extends Component
                 $days[] = [
                     'id' => count($days) + 1,
                     'day' => $date->format('j'),
-                    'date' => $date->format('Y-m-d'),
+                    'date' => $date->format('Y-m-j'),
                 ];
             }
         }
@@ -106,7 +120,7 @@ class Calendar extends Component
             $days[] = [
                 'id' => count($days) + 1,
                 'day' => $date->format('j'),
-                'date' => $date->format('Y-m-d'),
+                'date' => $date->format('Y-m-j'),
             ];
         }
 
@@ -120,12 +134,12 @@ class Calendar extends Component
                 $days[] = [
                     'id' => count($days) + 1,
                     'day' => $date->format('j'),
-                    'date' => $date->format('Y-m-d'),
+                    'date' => $date->format('Y-m-j'),
                 ];
             }
         }
 
-        return view('livewire.schedule.calendar', [
+        return view('livewire.calendar.calendar', [
             'days' => $days,
             'records' => $records,
         ]);
