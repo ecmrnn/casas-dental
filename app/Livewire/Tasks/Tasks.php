@@ -30,6 +30,7 @@ class Tasks extends Component
     public function mount()
     {
         $this->currentRoute = Route::getCurrentRoute()->uri();
+        // dd($this->currentRoute);
     }
 
     public function rules()
@@ -79,7 +80,7 @@ class Tasks extends Component
 
     public function add()
     {
-        $this->reset();
+        $this->reset('title', 'description');
         $this->dispatch('open-modal', name: 'add-task');
     }
 

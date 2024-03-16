@@ -135,6 +135,7 @@ class Patients extends Component
         $patient = Patient::find($id);
 
         if ($patient) {
+            $patient->name = $this->selectedFirstName . ' ' . $this->selectedLastName;
             $patient->first_name = $this->selectedFirstName;
             $patient->last_name = $this->selectedLastName;
             $patient->contact_number = '09' . $this->selectedContactNumber;
@@ -159,6 +160,7 @@ class Patients extends Component
         ]);
 
         Patient::create([
+            'name' => $this->firstName . ' ' . $this->lastName,
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
             'contact_number' => '09' . $this->contactNumber,

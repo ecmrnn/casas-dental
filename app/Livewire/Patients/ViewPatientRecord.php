@@ -21,10 +21,9 @@ class ViewPatientRecord extends Component
     public $modalView;
     public $modalConfirm;
     public $isIcon = false;
-
     public $currentRoute;
 
-    #[On('view-record')]
+
     public function mount($record)
     {
         $this->patientId = $record->patient_id;

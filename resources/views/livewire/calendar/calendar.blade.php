@@ -16,8 +16,8 @@
         @endif
     
         {{-- Dashboard Content --}}
-        <section class="p-5 pt-0 flex flex-col md:p-0 w-full xl:col-span-2">
-            <div class="p-5 rounded-lg border border-gray-200 bg-white flex-grow">
+        <section class="flex flex-col w-full xl:col-span-2">
+            <div class="p-5 md:rounded-lg border-t md:border border-gray-200 bg-white flex-grow">
                 <div class="mb-5 flex items-center gap-5">
                     <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>
                     <p>{{ $monthName . " " . $year }}</p>
@@ -25,17 +25,38 @@
             
                 {{-- Days --}}
                 <div class="grid grid-cols-7">
-                    <p class="py-2 bg-primary/5 text-center rounded-s-lg">Sun</p>
-                    <p class="py-2 bg-primary/5 text-center">Mon</p>
-                    <p class="py-2 bg-primary/5 text-center">Tues</p>
-                    <p class="py-2 bg-primary/5 text-center">Wed</p>
-                    <p class="py-2 bg-primary/5 text-center">Thur</p>
-                    <p class="py-2 bg-primary/5 text-center">Fri</p>
-                    <p class="py-2 bg-primary/5 text-center rounded-e-lg">Sat</p>
+                    <p class="py-2 bg-primary/5 text-center rounded-s-lg">
+                        <span class="md:hidden">S</span>
+                        <span class="hidden md:block">Sun</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center">
+                        <span class="md:hidden">M</span>
+                        <span class="hidden md:block">Mon</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center">
+                        <span class="md:hidden">T</span>
+                        <span class="hidden md:block">Tue</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center">
+                        <span class="md:hidden">W</span>
+                        <span class="hidden md:block">Wed</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center">
+                        <span class="md:hidden">Th</span>
+                        <span class="hidden md:block">Thu</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center">
+                        <span class="md:hidden">F</span>
+                        <span class="hidden md:block">Fri</span>
+                    </p>
+                    <p class="py-2 bg-primary/5 text-center rounded-e-lg">
+                        <span class="md:hidden">Sa</span>
+                        <span class="hidden md:block">Sat</span>
+                    </p>
                 </div>
             
                 {{-- Dates --}}
-                <div class="grid grid-cols-7 mt-1 gap-1">
+                <div class="grid grid-cols-7 mt-1 gap-[2px] md:gap-1">
                     @foreach ($days  as $day)
                         @php
                             $counter = 0;
@@ -45,34 +66,45 @@
                         <div key="{{ $day['id'] }}" class="relative">
                             <button
                                 wire:click="showDate('{{ $day['date'] }}')" 
-                                class="p-2 w-full rounded-lg border border-gray-200 relative min-h-28  hover:bg-gray-50
+                                class="p-2 w-full text-xs md:text-base rounded-lg border border-gray-200 relative min-h-14 md:min-h-28  hover:bg-gray-50
                                 @if(date('Y-m-j', strtotime($day['date'])) == date('Y-m-j')) bg-gray-100 @endif
                                 @if(date('F j, Y', strtotime($day['date'])) == $selectedDate) outline-1 outline outline-primary @endif
                                 ">
                 
-                                <div class="absolute top-2 left-2 
+                                <div class="absolute top-1 left-1 leading-none md:top-2 md:left-2 
                                     @if(date('Y-m', strtotime($day['date'])) !== date('Y-m')) text-primary/20 @endif)">
                                     {{ $day['day'] }}
                                 </div>
                             </button>
 
                             {{-- Records this date --}}
-                            <div class="w-full absolute bottom-0 left-0 p-2 space-y-1">
+                            <div class="absolute bottom-1 left-1/2 -translate-x-1/2 md:w-full md:p-2 md:left-0 md:bottom-0 md:-translate-x-0 flex gap-[1px] md:gap-1  justify-center md:block md:space-y-1 ">
                                 @foreach ($records as $record)
                                     @if ($record->schedule_date == $day['date'])
                                         @php
                                             $counter++;
                                         @endphp
                                         @if ($counter <= $maxDateRecord)
-                                            <button key="{{ $record->id }}" class="py-1 block w-full bg-primary rounded-md hover:bg-primary/90">
-                                                <p class="text-white text-center text-xs capitalize line-clamp-1">{{ $record->first_name . ", " . substr($record->last_name, 0, 1) . "." }}</p>
-                                            </button>    
+                                            <div key="{{ $record->rid }}">
+                                                {{-- Desktop --}}
+                                                <div class="hidden md:flex">
+                                                    <button class="py-1 block w-full bg-primary rounded-md hover:bg-primary/90">
+                                                        <p class="text-white text-center text-xs capitalize line-clamp-1">{{ $record->first_name . ", " . substr($record->last_name, 0, 1) . "." }}</p>
+                                                    </button> 
+                                                </div>
+                                                {{-- Mobile --}}
+                                                <div class="md:hidden">
+                                                    <div class="w-[6px] aspect-square bg-primary rounded-full">
+                                                    </div>
+                                                </div>
+                                            </div>    
                                         @endif
                                     @endif
                                 @endforeach
                             </div>
                             @if ($counter > $maxDateRecord)
-                                <p class="absolute top-2 right-2 text-primary/50 text-xs uppercase">{{ "+ " . $counter - $maxDateRecord . " more"}}</p>
+                                <p class="hidden md:block absolute top-2 right-2 text-primary/50 text-xs uppercase">{{ "+ " . $counter - $maxDateRecord . " more"}}</p>
+                                <p class="md:hidden absolute text-xs top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary/50">+{{ $counter - $maxDateRecord }}</p>
                             @endif
                         </div>
                     @endforeach
@@ -144,14 +176,14 @@
                                 @php
                                     $recordCounter++;
                                 @endphp
-                                <div class="pl-5 border border-gray-200 rounded-lg flex justify-between items-center">
+                                <div key="{{ $record->rid }}" class="pl-5 border border-gray-200 rounded-lg flex justify-between items-center">
                                     <p>{{ date('g:i A', strtotime($record->schedule_time)) }}</p>
                                     <div class="flex items-center">
                                         <div>
                                             <p class="text-right leading-none capitalize">{{ $record->first_name . " " . $record->last_name}}</p>
                                             <p class="text-xs text-right capitalize">{{ $record->purpose }}</p>
                                         </div>
-                                        <livewire:patients.view-patient-record :record="$record" :isIcon="true" />
+                                        <livewire:patients.view-patient-record :record="$record" :isIcon="true" key="{{ $record->rid }}" />
                                     </div>
                                 </div>
                             @endif

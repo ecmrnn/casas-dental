@@ -61,7 +61,7 @@ class Dashboard extends Component
             ->where('schedule_date', '=', date('Y-m-d'))
             ->where('records.deleted_at', null)
             ->orderBy('schedule_time')
-            ->paginate(10);
+            ->paginate(8);
         $this->scheduledTotal = $scheduled->total();
 
         $late = Record::where('status', 'scheduled')

@@ -150,12 +150,11 @@ class Record extends Component
             'status' => 'required',
             'note' => 'nullable',
         ]);
-        $completedAt = null;
 
-        if ($this->status == 'completed') {
-            $completedAt = date("Y-m-d H:i:s");
-            $this->scheduleDate = $completedAt;
-            $this->scheduleTime = $completedAt;
+        if ($this->status == 'scheduled') {
+            $completedAt = null;
+        } else {
+            $completedAt = $this->scheduleDate . ' ' . $this->scheduleTime;
         }
 
         ModelsRecord::create([

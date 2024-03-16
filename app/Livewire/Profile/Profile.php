@@ -4,9 +4,13 @@ namespace App\Livewire\Profile;
 
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 
 class Profile extends Component
 {
+    use WithPagination, WithoutUrlPagination;
+
     public function render()
     {
         $completed = DB::table('records')
@@ -15,8 +19,8 @@ class Profile extends Component
             ->where('status', 'completed')
             ->where('records.deleted_at', null)
             ->orderByDesc('completed_at')
-            ->limit(10)
-            ->get();
+            ->paginate(8);
+
         return view('livewire.profile.profile', [
             'completed' => $completed,
         ]);

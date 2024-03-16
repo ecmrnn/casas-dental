@@ -12,7 +12,7 @@
         <div class="px-5 md:p-0 flex flex-col min-[400px]:flex-row gap-2 min-[400px]:gap-5 items-start sm:justify-between">
             <x-primary-button wire:click="add" class="flex items-center gap-5 shrink-0">
                 <svg class="hidden sm:block fill-white" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M444-444H276q-15.3 0-25.65-10.289-10.35-10.29-10.35-25.5Q240-495 250.35-505.5 260.7-516 276-516h168v-168q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q495-720 505.5-709.65 516-699.3 516-684v168h168q15.3 0 25.65 10.289 10.35 10.29 10.35 25.5Q720-465 709.65-454.5 699.3-444 684-444H516v168q0 15.3-10.289 25.65-10.29 10.35-25.5 10.35Q465-240 454.5-250.35 444-260.7 444-276v-168Z"/></svg>
-                {{ __('New Record') }}
+                {{ __('Add Appointment') }}
             </x-primary-button>
             <div class="p-3 pl-5 pb-2 w-full sm:w-auto rounded-lg border border-gray-200 bg-white flex gap-3 justify-between">
                 <x-input-search wire:model.live.debounce.500ms="search" placeholder="Search a Record" class="text-sm w-full" />
@@ -240,36 +240,34 @@
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
 
-                    @if ($status == 'scheduled')
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
-                                <input 
-                                    wire:model.live.debounce.500ms="scheduleDate"
-                                    type="date"
-                                    name="scheduleDate"
-                                    id="scheduleDate"
-                                    min="{{ date('Y-m-d') }}"
-                                    required
-                                    class="p-0 w-full border-0 border-b-2 border-transparent">
-                                <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
-                            </div>
-                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
-                                <input 
-                                    wire:model.live.debounce.500ms="scheduleTime"
-                                    type="time"
-                                    name="scheduleTime"
-                                    id="scheduleTime"
-                                    {{-- min="8:00"
-                                    max="17:00" --}}
-                                    value="08:00"
-                                    required
-                                    class="p-0 w-full border-0 border-b-2 border-transparent">
-                                <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
-                            </div>
-                        </div>                      
-                    @endif
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                            <input 
+                                wire:model.live.debounce.500ms="scheduleDate"
+                                type="date"
+                                name="scheduleDate"
+                                id="scheduleDate"
+                                min="{{ date('Y-m-d') }}"
+                                required
+                                class="p-0 w-full border-0 border-b-2 border-transparent">
+                            <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                        </div>
+                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                            <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                            <input 
+                                wire:model.live.debounce.500ms="scheduleTime"
+                                type="time"
+                                name="scheduleTime"
+                                id="scheduleTime"
+                                {{-- min="8:00"
+                                max="17:00" --}}
+                                value="08:00"
+                                required
+                                class="p-0 w-full border-0 border-b-2 border-transparent">
+                            <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                        </div>
+                    </div>                      
 
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                         <x-input-label for="note" value="{{ __('My Note') }}" />
@@ -341,34 +339,32 @@
                                 required autofocus autocomplete="username" />
                             <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
                         </div>
-                        @if ($selectedRecord->status == 'scheduled')
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                    <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
-                                    <input 
-                                        wire:model.live.debounce.500ms="scheduleDate"
-                                        type="date"
-                                        name="scheduleDate"
-                                        id="scheduleDate"
-                                        min="{{ date('Y-m-d') }}"
-                                        required
-                                        class="p-0 w-full border-0 border-b-2 border-transparent">
-                                    <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
-                                </div>
-                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                    <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
-                                    <input 
-                                        wire:model.live.debounce.500ms="scheduleTime"
-                                        type="time"
-                                        name="scheduleTime"
-                                        id="scheduleTime"
-                                        value="{{ $scheduleTime }}"
-                                        required
-                                        class="p-0 w-full border-0 border-b-2 border-transparent">
-                                    <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
-                                </div>
-                            </div>  
-                        @endif
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleDate"
+                                    type="date"
+                                    name="scheduleDate"
+                                    id="scheduleDate"
+                                    min="{{ date('Y-m-d') }}"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                            </div>
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                                <input 
+                                    wire:model.live.debounce.500ms="scheduleTime"
+                                    type="time"
+                                    name="scheduleTime"
+                                    id="scheduleTime"
+                                    value="{{ $scheduleTime }}"
+                                    required
+                                    class="p-0 w-full border-0 border-b-2 border-transparent">
+                                <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                            </div>
+                        </div>  
                         <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                             <x-input-label for="selectedNote" value="{{ __('My Note') }}" />
                             <textarea 

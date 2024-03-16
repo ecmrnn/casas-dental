@@ -76,7 +76,7 @@
     
                             <tbody>
                                 @foreach ($completed as $record)
-                                    <tr key="{{ $record->id }}">
+                                    <tr key="{{ $record->rid }}">
                                         <td class="border-y border-l rounded-s-lg border-gray-200">
                                             <div class="w-[10px] m-4 aspect-square rounded-full bg-green-400">
                                             </div>
@@ -86,19 +86,20 @@
                                         <td class="border-y border-gray-200 capitalize">{{ date('F d, Y', strtotime($record->completed_at)) }}</td>
                                         <td class="p-2 border-y border-r border-gray-200 rounded-e-lg text-right">
                                             <div class="flex justify-end">
-                                                <livewire:patients.view-patient-record :record="$record" />
+                                                <livewire:patients.view-patient-record :record="$record" key="{{ $record->rid }}" />
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </x-table>
+                        {{ $completed->links(data: ['scrollTo' => false]) }}
                     </div>
 
                     {{-- Mobile --}}
                     <div class="md:hidden space-y-2">
                         @foreach ($completed as $record)
-                            <div class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
+                            <div key="{{ $record->rid }}" class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
                                 <div class="w-full text-left flex items-center justify-between flex-grow">
                                     <div class="flex items-center">
                                         <div class="w-[12px] m-5 aspect-square rounded-full bg-green-500">
@@ -122,6 +123,6 @@
         </section>
 
         {{-- Tasks --}}
-        @livewire('dashboard.tasks')
+        @livewire('tasks.tasks')
     </div>
 </div>

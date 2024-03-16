@@ -83,7 +83,7 @@
     
                             <tbody>
                                 @foreach ($scheduled as $record)
-                                    <tr key="{{ $record->id }}">
+                                    <tr key="{{ $record->rid }}">
                                         <td class="border-y border-l rounded-s-lg border-gray-200">
                                             @if ($record->status !== 'completed')
                                                 @if ($record->status == 'scheduled')
@@ -112,7 +112,7 @@
                                         </td>
                                         <td class="p-2 border-y border-r border-gray-200 rounded-e-lg text-right">
                                             <div class="flex justify-end">
-                                                <livewire:patients.view-patient-record :record="$record" />
+                                                <livewire:patients.view-patient-record :record="$record" key="{{ $record->rid }}" />
                                             </div>
                                         </td>
                                     </tr>
@@ -125,7 +125,7 @@
                     {{-- Mobile --}}
                     <div class="md:hidden space-y-2">
                         @foreach ($scheduled as $record)
-                            <div class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
+                            <div key="{{ $record->rid }}" class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
                                 <div class="w-full text-left flex justify-between items-center flex-grow">
                                     <div class="flex items-center">
                                         @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
 
-                                    <livewire:patients.view-patient-record :record="$record" :isIcon="true" />
+                                    <livewire:patients.view-patient-record :record="$record" :isIcon="true" key="{{ $record->rid }}" />
                                 </div>
                             </div>
                         @endforeach
@@ -155,6 +155,6 @@
         </section>
 
         {{-- Tasks --}}
-        @livewire('dashboard.tasks')
+        @livewire('tasks.tasks')
     </div>
 </div>
