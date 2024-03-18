@@ -56,7 +56,7 @@
                 </div>
             
                 {{-- Dates --}}
-                <div class="grid grid-cols-7 mt-1 gap-[2px] md:gap-1">
+                <div class="grid grid-cols-7 mt-[2px] md:mt-1 gap-[2px] md:gap-1">
                     @foreach ($days  as $day)
                         @php
                             $counter = 0;
@@ -111,7 +111,7 @@
                 </div>
 
                 {{-- Navigating Calendar --}}
-                <div class="mt-1 grid grid-cols-3 gap-1">
+                <div class="mt-[2px] md:mt-1 grid grid-cols-3 gap-[2px] md:gap-1">
             
                     {{-- if the current month is January --}}
                     @if ($prevMonth == 12)

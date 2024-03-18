@@ -3,11 +3,11 @@
 namespace App\Livewire\Tasks;
 
 use App\Models\Task;
-use Illuminate\Support\Facades\Route;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use RalphJSmit\Livewire\Urls\Facades\Url;
 
 class Tasks extends Component
 {
@@ -29,8 +29,7 @@ class Tasks extends Component
 
     public function mount()
     {
-        $this->currentRoute = Route::getCurrentRoute()->uri();
-        // dd($this->currentRoute);
+        $this->currentRoute = Url::currentRoute();
     }
 
     public function rules()

@@ -186,7 +186,8 @@ class Patients extends Component
     public function render()
     {
         $patients = Patient::query()
-            ->where('first_name', 'like', "%{$this->search}%")
+            ->where('name', 'like', "%{$this->search}%")
+            ->orWhere('first_name', 'like', "%{$this->search}%")
             ->orWhere('last_name', 'like', "%{$this->search}%")
             ->orWhere('contact_number', 'like', "%{$this->search}%")
             ->orderBy('first_name')

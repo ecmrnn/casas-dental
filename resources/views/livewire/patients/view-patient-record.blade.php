@@ -15,7 +15,7 @@
 
     <!-- View Record Modal -->
     <x-modal name="{{ $modalView }}">
-        <form autocomplete="off" class="text-left">
+        <form method="POST" autocomplete="off" class="text-left">
             <div x-data class="flex items-center justify-between border-b border-gray-200">
                 <div class="pl-5 sm:p-5 flex items-center gap-3">
                     <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M360-240h240q17 0 28.5-11.5T640-280q0-17-11.5-28.5T600-320H360q-17 0-28.5 11.5T320-280q0 17 11.5 28.5T360-240Zm0-160h240q17 0 28.5-11.5T640-440q0-17-11.5-28.5T600-480H360q-17 0-28.5 11.5T320-440q0 17 11.5 28.5T360-400ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h287q16 0 30.5 6t25.5 17l194 194q11 11 17 25.5t6 30.5v447q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-440H560q-17 0-28.5-11.5T520-640ZM240-800v200-200 640-640Z"/></svg>
@@ -94,7 +94,7 @@
 
         <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
             <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
-            <x-primary-button x-on:click="show = false" wire:click="complete({{ $recordId }})">Yes, done!</x-primary-button>
+            <x-primary-button x-on:click="show = false" wire:click="update({{ $recordId }})">Yes, done!</x-primary-button>
         </div>
     </x-modal-confirmation>
 </div>

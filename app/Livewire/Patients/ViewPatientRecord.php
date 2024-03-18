@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Patients;
 
+use RalphJSmit\Livewire\Urls\Facades\Url;
 use App\Models\Record;
 use Illuminate\Support\Facades\Route;
-use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ViewPatientRecord extends Component
@@ -36,7 +36,7 @@ class ViewPatientRecord extends Component
         $this->scheduleTime = $record->schedule_time;
         $this->modalView = 'view-record-modal-' . $this->recordId;
         $this->modalConfirm = 'confirm-record-modal-' . $this->recordId;
-        $this->currentRoute = Route::getCurrentRoute()->uri();
+        $this->currentRoute = Url::currentRoute();
     }
 
     public function viewRecord()
@@ -49,7 +49,7 @@ class ViewPatientRecord extends Component
         $this->dispatch('open-modal-confirm', name: $this->modalConfirm);
     }
 
-    public function complete($id)
+    public function update($id)
     {
         $record = Record::find($id);
         $record->status = 'completed';
