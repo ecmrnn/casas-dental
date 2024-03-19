@@ -87,10 +87,10 @@
                                         @if ($counter <= $maxDateRecord)
                                             <div key="{{ $record->rid }}">
                                                 {{-- Desktop --}}
-                                                <div class="hidden md:flex">
-                                                    <button class="py-1 block w-full bg-primary rounded-md hover:bg-primary/90">
+                                                <div class="hidden md:grid">
+                                                    <div class="py-1 bg-primary rounded-md">
                                                         <p class="text-white text-center text-xs capitalize line-clamp-1">{{ $record->first_name . ", " . substr($record->last_name, 0, 1) . "." }}</p>
-                                                    </button> 
+                                                    </div> 
                                                 </div>
                                                 {{-- Mobile --}}
                                                 <div class="md:hidden">

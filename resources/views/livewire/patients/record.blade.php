@@ -1,3 +1,8 @@
+@php
+    $startTime = '08:00 AM';
+    $startTime = '05:00 PM';
+@endphp
+
 <div>
     <x-slot name="header">
         {{ __('Records') }}
@@ -217,7 +222,6 @@
                     </button>
                 </div>
 
-
                 <div class="p-5 bg-gray-50/90 space-y-2">
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                         <x-input-label for="purpose" value="{{ __('Purpose') }}" />
@@ -240,34 +244,72 @@
                         <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                        <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
+                        <input 
+                            wire:model.live.debounce.500ms="scheduleDate"
+                            type="date"
+                            name="scheduleDate"
+                            id="scheduleDate"
+                            min="{{ date('Y-m-d') }}"
+                            required
+                            class="p-0 w-full border-0 border-b-2 border-transparent">
+                        <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                    </div>
+                    @if ($scheduleDate)  
+                        @if (date('F j, Y', strtotime($scheduleDate)) < date('F j, Y'))
+                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                <p class="text-sm opacity-50">Not a valid date</p>
+                            </div>
+                        @else
+                            <div class="p-2 rounded-lg border border-gray-200 bg-white">
+                                <p class="text-sm opacity-50 mb-2">Available Time for {{ date('F j, Y', strtotime($scheduleDate)) }}</p>
+
+                                <div class="grid grid-cols-4 gap-1">
+                                    <div wire:click="selectTime">
+                                        <x-input-appointment-time time="8:00 AM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="9:00 AM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="10:00 AM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="11:00 AM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="1:00 PM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="2:00 PM" />
+                                    </div>
+                                    <div>
+                                        <x-input-appointment-time time="3:00 PM" />
+                                    </div>
+                                    <x-input-appointment-time time="4:00 PM" />
+                                </div>
+                            </div>
+                        @endif 
+                    @else
                         <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                            <x-input-label for="scheduleDate" value="{{ __('Date') }}" />
-                            <input 
-                                wire:model.live.debounce.500ms="scheduleDate"
-                                type="date"
-                                name="scheduleDate"
-                                id="scheduleDate"
-                                min="{{ date('Y-m-d') }}"
-                                required
-                                class="p-0 w-full border-0 border-b-2 border-transparent">
-                            <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
+                            <p class="text-sm opacity-50">Select a date before time</p>
                         </div>
-                        <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                            <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
-                            <input 
-                                wire:model.live.debounce.500ms="scheduleTime"
-                                type="time"
-                                name="scheduleTime"
-                                id="scheduleTime"
-                                {{-- min="8:00"
-                                max="17:00" --}}
-                                value="08:00"
-                                required
-                                class="p-0 w-full border-0 border-b-2 border-transparent">
-                            <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
-                        </div>
-                    </div>                      
+                    @endif
+                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                        <x-input-label for="scheduleTime" value="{{ __('Time') }}" />
+                        <input 
+                            wire:model.live.debounce.500ms="scheduleTime"
+                            type="time"
+                            name="scheduleTime"
+                            id="scheduleTime"
+                            {{-- min="8:00"
+                            max="17:00" --}}
+                            value="08:00"
+                            required
+                            class="p-0 w-full border-0 border-b-2 border-transparent">
+                        <x-input-error :messages="$errors->get('scheduleTime')" class="mt-2" />
+                    </div>
 
                     <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                         <x-input-label for="note" value="{{ __('My Note') }}" />

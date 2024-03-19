@@ -21,6 +21,7 @@ class ViewPatientRecord extends Component
     public $modalView;
     public $modalConfirm;
     public $isIcon = false;
+    public $isCalendar = false;
     public $currentRoute;
 
 

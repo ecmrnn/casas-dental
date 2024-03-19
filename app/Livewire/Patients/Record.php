@@ -4,6 +4,7 @@ namespace App\Livewire\Patients;
 
 use App\Models\Patient;
 use App\Models\Record as ModelsRecord;
+use Carbon\Carbon;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -23,6 +24,9 @@ class Record extends Component
     public $scheduleDate = '';
     #[Validate]
     public $scheduleTime = '';
+
+    public $startTime;
+    public $endTime;
 
     public Patient $patient;
     public ModelsRecord $selectedRecord;
@@ -62,6 +66,12 @@ class Record extends Component
     public function mount($id)
     {
         $this->patient = Patient::findOrFail($id);
+        $myCarbon = Carbon::now();
+    }
+
+    public function selectTime()
+    {
+        dd('hello world');
     }
 
     public function viewRecord(ModelsRecord $record)
