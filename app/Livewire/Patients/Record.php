@@ -25,12 +25,12 @@ class Record extends Component
     #[Validate]
     public $scheduleTime = '';
 
-    public $startTime;
-    public $endTime;
-
     public Patient $patient;
     public ModelsRecord $selectedRecord;
     public $search = '';
+
+    public $timeSlot = [];
+    public $availableTime = [];
 
     // Validation methods
 
@@ -66,12 +66,22 @@ class Record extends Component
     public function mount($id)
     {
         $this->patient = Patient::findOrFail($id);
-        $myCarbon = Carbon::now();
+        $this->timeSlot = [];
+
+        for ($hour = 8; $hour < 17; $hour++) {
+            $this->timeSlot[] = date('H:i:s', strtotime(Carbon::createFromTime($hour, 0, 0)));
+        }
     }
 
     public function selectTime()
     {
-        dd('hello world');
+        $this->reset('scheduleTime');
+        $this->availableTime = ModelsRecord::all()->where('schedule_date', $this->scheduleDate);
+    }
+
+    public function updateSelectedTime($time)
+    {
+        $this->scheduleTime = $time;
     }
 
     public function viewRecord(ModelsRecord $record)
@@ -88,6 +98,7 @@ class Record extends Component
         $this->note = $this->selectedRecord->note;
         $this->scheduleDate = $this->selectedRecord->schedule_date;
         $this->scheduleTime = date('H:i', strtotime($this->selectedRecord->schedule_time));
+        $this->selectTime();
         $this->dispatch('open-modal', name: 'action-modal');
     }
 

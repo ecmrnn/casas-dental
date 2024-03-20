@@ -105,7 +105,7 @@
         </div>
         @endif
 
-            {{-- Add Patient Modal --}}
+        {{-- Add Patient Modal --}}
         <x-modal name="add-patient" :show="$errors->isNotEmpty()" focusable>
             <form wire:submit="save" class="relative overflow-hidden" autocomplete="off">
 

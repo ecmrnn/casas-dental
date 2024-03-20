@@ -80,7 +80,7 @@
                             {{-- Records this date --}}
                             <div class="absolute bottom-1 left-1/2 -translate-x-1/2 md:w-full md:p-2 md:left-0 md:bottom-0 md:-translate-x-0 flex gap-[1px] md:gap-1  justify-center md:block md:space-y-1 ">
                                 @foreach ($records as $record)
-                                    @if ($record->schedule_date == $day['date'])
+                                    @if (date('Y-m-j', strtotime($record->schedule_date)) == $day['date'])
                                         @php
                                             $counter++;
                                         @endphp
