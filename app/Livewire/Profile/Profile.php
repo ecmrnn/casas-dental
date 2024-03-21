@@ -19,7 +19,8 @@ class Profile extends Component
             ->where('status', 'completed')
             ->where('records.deleted_at', null)
             ->orderByDesc('completed_at')
-            ->paginate(8);
+            ->limit(10)
+            ->get();
 
         return view('livewire.profile.profile', [
             'completed' => $completed,

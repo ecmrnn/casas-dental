@@ -36,13 +36,23 @@ class Record extends Component
 
     public function rules()
     {
-        return [
-            'purpose' => 'required|min:2',
-            'status' => 'required',
-            'note' => 'nullable|max:40',
-            'scheduleDate' => 'nullable',
-            'scheduleTime' => 'nullable',
-        ];
+        if ($this->status == 'completed') {
+            return [
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable|max:40',
+                'scheduleDate' => 'required',
+                'scheduleTime' => 'nullable',
+            ];
+        } else {
+            return [
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable|max:40',
+                'scheduleDate' => 'required|date|after_or_equal:today',
+                'scheduleTime' => 'required',
+            ];
+        }
     }
 
     public function messages()
@@ -51,6 +61,7 @@ class Record extends Component
             'purpose.required' => ':attribute is missing.',
             'purpose.min' => ':attribute is too short.',
             'status.required' => ':attribute is missing.',
+            'scheduleDate.after_or_equal' => ':attribute must be after or equal to today.',
         ];
     }
 
@@ -60,6 +71,8 @@ class Record extends Component
             'purpose' => 'Purpose',
             'status' => 'Status',
             'note' => 'Note',
+            'scheduleDate' => 'Date',
+            'scheduleTime' => 'Time',
         ];
     }
 
@@ -76,7 +89,7 @@ class Record extends Component
     public function selectTime()
     {
         $this->reset('scheduleTime');
-        $this->availableTime = ModelsRecord::all()->where('schedule_date', $this->scheduleDate);
+        $this->availableTime = ModelsRecord::all()->where('schedule_date', $this->scheduleDate)->where('status', 'scheduled');
     }
 
     public function updateSelectedTime($time)
@@ -130,6 +143,8 @@ class Record extends Component
             'purpose' => 'required|min:2',
             'status' => 'required',
             'note' => 'nullable',
+            'scheduleDate' => 'required',
+            'scheduleTime' => 'required',
         ]);
 
         $record = ModelsRecord::find($this->selectedRecord->id);
@@ -166,15 +181,26 @@ class Record extends Component
 
     public function save()
     {
-        $this->validate([
-            'purpose' => 'required|min:2',
-            'status' => 'required',
-            'note' => 'nullable',
-        ]);
-
         if ($this->status == 'scheduled') {
+            $this->validate([
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable',
+                'scheduleDate' => 'required',
+                'scheduleTime' => 'required',
+            ]);
+
             $completedAt = null;
         } else {
+            $this->validate([
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable',
+                'scheduleDate' => 'required',
+                'scheduleTime' => 'nullable',
+            ]);
+
+            $this->scheduleTime = date('h:i:s', strtotime(Carbon::createFromTime(8, 0, 0)));
             $completedAt = $this->scheduleDate . ' ' . $this->scheduleTime;
         }
 
