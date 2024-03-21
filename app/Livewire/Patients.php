@@ -120,7 +120,6 @@ class Patients extends Component
     {
         $this->reset('firstName', 'lastName', 'contactNumber', 'address', 'email');
         $this->resetErrorBag();
-        $this->dispatch('open-modal', name: 'add-patient');
     }
 
     public function update($id)

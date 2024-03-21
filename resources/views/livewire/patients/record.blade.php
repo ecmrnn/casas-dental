@@ -1,8 +1,9 @@
 @php
     $isAvailable = true;
+    $hour = date('H') - 1;
 @endphp
 
-<div>
+<div x-data>
     <x-slot name="header">
         {{ __('Records') }}
         
@@ -14,7 +15,9 @@
     {{-- Actions --}}
     <div>
         <div class="px-5 md:p-0 flex flex-col min-[400px]:flex-row gap-2 min-[400px]:gap-5 items-start sm:justify-between">
-            <x-primary-button wire:click="add" class="flex items-center gap-5 shrink-0">
+            <x-primary-button 
+                x-on:click="$dispatch('open-modal', { name: 'add-record'})"
+                wire:click="add" class="flex items-center gap-5 shrink-0">
                 <svg class="hidden sm:block fill-white" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M444-444H276q-15.3 0-25.65-10.289-10.35-10.29-10.35-25.5Q240-495 250.35-505.5 260.7-516 276-516h168v-168q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q495-720 505.5-709.65 516-699.3 516-684v168h168q15.3 0 25.65 10.289 10.35 10.29 10.35 25.5Q720-465 709.65-454.5 699.3-444 684-444H516v168q0 15.3-10.289 25.65-10.29 10.35-25.5 10.35Q465-240 454.5-250.35 444-260.7 444-276v-168Z"/></svg>
                 {{ __('Add Appointment') }}
             </x-primary-button>
@@ -112,11 +115,7 @@
                                 </td>
                                 {{-- Date --}}
                                 <td class="border-y border-gray-200 capitalize">
-                                    @if ($record->status == 'completed')
-                                        {{ date("F j, Y", strtotime($record->completed_at)) }}
-                                    @else
-                                        {{ date("F j, Y", strtotime($record->schedule_date)) }}
-                                    @endif
+                                    {{ date("F j, Y", strtotime($record->schedule_date)) }}
                                 </td>
                                 {{-- Time --}}
                                 <td class="border-y border-gray-200 capitalize">
@@ -127,10 +126,10 @@
                                     @if ($record->status == "completed")
                                         <x-record-status status="{{$record->status}}" />
                                     @else
-                                        @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
+                                        @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d ' . $hour . ':i:s'))
                                             <x-record-status status="{{$record->status}}" />
                                         @else
-                                        <x-record-status status="late" />
+                                            <x-record-status status="late" />
                                         @endif
                                     @endif
                                 </td>
@@ -374,7 +373,7 @@
                                 type="text"
                                 name="selectedPurpose"
                                 placeholder="Purpose"
-                                required autofocus autocomplete="username" />
+                                autofocus autocomplete="username" />
                             <x-input-error :messages="$errors->get('purpose')" class="mt-2" />
                         </div>
                         <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
@@ -385,64 +384,64 @@
                                 type="date"
                                 name="scheduleDate"
                                 id="scheduleDate"
-                                min="{{ date('Y-m-d') }}"
-                                required
                                 class="p-0 w-full border-0 border-b-2 border-transparent">
                             <x-input-error :messages="$errors->get('scheduleDate')" class="mt-2" />
                         </div>
-                        @if ($scheduleDate)  
-                            @if (date('y-m-j', strtotime($scheduleDate)) < date('y-m-j'))
-                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                    <p class="text-sm opacity-50">Not a valid date</p>
-                                </div>
-                            @else
-                                <div class="p-2 rounded-lg border border-gray-200 bg-white">
-                                    <p class="text-sm opacity-50 mb-2">Available Time for {{ date('F j, Y', strtotime($scheduleDate)) }}</p>
-
-                                    <div
-                                        class="grid grid-cols-4 gap-1">
-                                        @foreach ($timeSlot as $time)
-                                            @php
-                                                $isAvailable = true;
-                                            @endphp
-
-                                            @if (date('h', strtotime($time)) !== "12")
-                                                @foreach ($availableTime as $available)
-                                                    @if ($available->schedule_time == $time)
-                                                        @php
-                                                            $isAvailable = false;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                <button
-                                                    key="{{ $time }}"
-                                                    wire:model.live="scheduleTime"
-                                                    wire:click="updateSelectedTime('{{ $time }}')"
-                                                    type="button"
-
-                                                    @if (!$isAvailable)
-                                                        @disabled(true)
-                                                    @endif
-
-                                                    class="w-full rounded-lg border
-                                                    @if ($scheduleTime == $time) { bg-blue-200 border-blue-400 } @endif
-                                                    @if (!$isAvailable) { bg-gray-100 } @endif
-                                                    ">
-                                                    <div class="py-2 px-3 rounded-lg text-center
-                                                    @if (!$isAvailable) { text-primary/25 } @endif
-                                                    ">
-                                                        {{ date('g:i A', strtotime($time)) }}
-                                                    </div>
-                                                </button>
-                                            @endif
-                                        @endforeach
+                        @if ($status == 'scheduled')
+                            @if ($scheduleDate)  
+                                @if (date('y-m-j', strtotime($scheduleDate)) < date('y-m-j'))
+                                    <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                        <p class="text-sm opacity-50">Not a valid date</p>
                                     </div>
+                                @else
+                                    <div class="p-2 rounded-lg border border-gray-200 bg-white">
+                                        <p class="text-sm opacity-50 mb-2">Available Time for {{ date('F j, Y', strtotime($scheduleDate)) }}</p>
+
+                                        <div
+                                            class="grid grid-cols-4 gap-1">
+                                            @foreach ($timeSlot as $time)
+                                                @php
+                                                    $isAvailable = true;
+                                                @endphp
+
+                                                @if (date('h', strtotime($time)) !== "12")
+                                                    @foreach ($availableTime as $available)
+                                                        @if ($available->schedule_time == $time)
+                                                            @php
+                                                                $isAvailable = false;
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    <button
+                                                        key="{{ $time }}"
+                                                        wire:model.live="scheduleTime"
+                                                        wire:click="updateSelectedTime('{{ $time }}')"
+                                                        type="button"
+
+                                                        @if (!$isAvailable)
+                                                            @disabled(true)
+                                                        @endif
+
+                                                        class="w-full rounded-lg border
+                                                        @if (!$isAvailable) { bg-gray-100 } @endif
+                                                        @if ($scheduleTime == $time) { bg-blue-200 border-blue-400 } @endif
+                                                        ">
+                                                        <div class="py-2 px-3 rounded-lg text-center
+                                                        @if (!$isAvailable) { text-primary/25 } @endif
+                                                        ">
+                                                            {{ date('g:i A', strtotime($time)) }}
+                                                        </div>
+                                                    </button>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif 
+                            @else
+                                <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
+                                    <p class="text-sm opacity-50">Select a date before time</p>
                                 </div>
-                            @endif 
-                        @else
-                            <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
-                                <p class="text-sm opacity-50">Select a date before time</p>
-                            </div>
+                            @endif
                         @endif
                         <div class="py-2 px-3 rounded-lg border border-gray-200 bg-white">
                             <x-input-label for="selectedNote" value="{{ __('My Note') }}" />

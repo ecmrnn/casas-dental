@@ -37,22 +37,9 @@ class Dashboard extends Component
         return $this->redirect("/dashboard", navigate: true);
     }
 
-    public function viewRecord($id, $firstName, $patientId)
-    {
-        $record = Record::find($id);
-        $this->patientId = $patientId;
-        $this->recordId = $id;
-        $this->firstName = $firstName;
-        $this->purpose = $record->purpose;
-        $this->note = $record->note;
-        $this->scheduleDate = $record->schedule_date;
-        $this->scheduleTime = $record->schedule_time;
-
-        $this->dispatch('open-modal', name: 'view-record-modal');
-    }
-
     public function render()
     {
+        $hour = date('H') - 1;
         $patients = Patient::all()->count();
         $scheduled = DB::table('records')
             ->join('patients', 'records.patient_id', '=', 'patients.id')
@@ -64,15 +51,15 @@ class Dashboard extends Component
             ->paginate(8);
         $this->scheduledTotal = $scheduled->total();
 
-        $late = Record::where('status', 'scheduled')
+        $late = DB::table('records')
+            ->join('patients', 'records.patient_id', '=', 'patients.id')
+            ->select('*', 'records.id AS rid')
+            ->where('status', 'scheduled')
             ->where('schedule_date', '<=', date('Y-m-d'))
-            ->where('schedule_time', '<', date('H:i:s'))
-            ->orWhere(function ($query) {
-                $query->where('status', 'scheduled')
-                    ->where('schedule_date', '<', date('Y-m-d'));
-            })
+            ->where('schedule_time', '<', date($hour . ':i:s'))
+            ->where('records.deleted_at', null)
+            ->orderBy('schedule_time')
             ->get();
-
         return view('livewire.dashboard.dashboard', [
             'patients' => $patients,
             'late' => $late,

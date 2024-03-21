@@ -39,7 +39,6 @@ $maxWidth = [
             document.body.classList.remove('overflow-y-hidden');
         }
     })"
-    {{-- x-on:open-modal.window="$show == () event.detail == '{{ $name }}' ? show = true : null" --}}
     x-on:open-modal.window="show = ($event.detail.name === '{{ $name }}')"
     x-on:close-modal.window="show = !($event.detail.name === '{{ $name }}')"
     x-on:close.stop="show = false"

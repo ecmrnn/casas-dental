@@ -1,4 +1,4 @@
-<aside class="min-h-[500px] w-full p-5 md:rounded-lg border border-gray-200 bg-white">
+<aside x-data class="min-h-[500px] w-full p-5 md:rounded-lg border border-gray-200 bg-white">
 
     <div class="mb-5 flex items-center gap-5">
         <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-160v-441q0-33 24-56t57-23h439q33 0 56.5 23.5T880-600v320L680-80H360q-33 0-56.5-23.5T280-160ZM81-710q-6-33 13-59.5t52-32.5l434-77q33-6 59.5 13t32.5 52l10 54h-82l-7-40-433 77 40 226v279q-16-9-27.5-24T158-276L81-710Zm279 110v440h280v-160h160v-280H360Zm220 220Z"/></svg>
@@ -8,10 +8,11 @@
     <div class="flex flex-col justify-between">
 
         {{-- Task List --}}
-
         <div>
             @if (count($tasks) == 0)
-                <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
+                <button 
+                    x-on:click="$dispatch('open-modal', { name: 'add-task'})"
+                    wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">🎊</p>
                     <p class="mt-2 text-center poppins-bold text-2xl leading-none">Hooray!</p>
                     <p class="text-center opacity-50">No tasks, click here to add one</p>
@@ -35,6 +36,7 @@
 
         <x-primary-button 
             type="button"
+            x-on:click="$dispatch('open-modal', { name: 'add-task'})"
             wire:click="add"
             class="mt-1 flex gap-5 items-center self-end">
             <svg class="fill-white" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M444-444H276q-15.3 0-25.65-10.289-10.35-10.29-10.35-25.5Q240-495 250.35-505.5 260.7-516 276-516h168v-168q0-15.3 10.289-25.65 10.29-10.35 25.5-10.35Q495-720 505.5-709.65 516-699.3 516-684v168h168q15.3 0 25.65 10.289 10.35 10.29 10.35 25.5Q720-465 709.65-454.5 699.3-444 684-444H516v168q0 15.3-10.289 25.65-10.29 10.35-25.5 10.35Q465-240 454.5-250.35 444-260.7 444-276v-168Z"/></svg>

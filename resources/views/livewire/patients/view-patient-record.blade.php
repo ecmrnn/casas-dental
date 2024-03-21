@@ -12,7 +12,7 @@
                     </div> 
                 @else
                     <div class="px-5 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm">
-                        <p>View Record</p>
+                        <p class="text-nowrap">View Record</p>
                     </div>
                 @endif
             @endif

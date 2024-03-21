@@ -107,11 +107,12 @@ class Record extends Component
     {
         $this->resetErrorBag();
         $this->selectedRecord = $record;
+        $this->status = $this->selectedRecord->status;
         $this->purpose = $this->selectedRecord->purpose;
         $this->note = $this->selectedRecord->note;
         $this->scheduleDate = $this->selectedRecord->schedule_date;
-        $this->scheduleTime = date('H:i', strtotime($this->selectedRecord->schedule_time));
         $this->selectTime();
+        $this->scheduleTime = date('H:i:s', strtotime($this->selectedRecord->schedule_time));
         $this->dispatch('open-modal', name: 'action-modal');
     }
 
@@ -134,18 +135,29 @@ class Record extends Component
     {
         $this->resetErrorBag();
         $this->reset('purpose', 'note', 'scheduleDate', 'scheduleTime');
-        $this->dispatch('open-modal', name: 'add-record');
     }
 
     public function update()
     {
-        $this->validate([
-            'purpose' => 'required|min:2',
-            'status' => 'required',
-            'note' => 'nullable',
-            'scheduleDate' => 'required',
-            'scheduleTime' => 'required',
-        ]);
+        if ($this->status == 'scheduled') {
+            $this->validate([
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable',
+                'scheduleDate' => 'required',
+                'scheduleTime' => 'required',
+            ]);
+        } else {
+            $this->validate([
+                'purpose' => 'required|min:2',
+                'status' => 'required',
+                'note' => 'nullable',
+                'scheduleDate' => 'required',
+                'scheduleTime' => 'nullable',
+            ]);
+
+            $this->scheduleTime = date('h:i:s', strtotime(Carbon::createFromTime(17, 0, 0)));
+        }
 
         $record = ModelsRecord::find($this->selectedRecord->id);
 
@@ -200,7 +212,7 @@ class Record extends Component
                 'scheduleTime' => 'nullable',
             ]);
 
-            $this->scheduleTime = date('h:i:s', strtotime(Carbon::createFromTime(8, 0, 0)));
+            $this->scheduleTime = date('H:i:s', strtotime(Carbon::createFromTime(17, 0, 0)));
             $completedAt = $this->scheduleDate . ' ' . $this->scheduleTime;
         }
 

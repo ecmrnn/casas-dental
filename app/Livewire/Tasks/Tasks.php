@@ -79,8 +79,8 @@ class Tasks extends Component
 
     public function add()
     {
+        $this->resetErrorBag();
         $this->reset('title', 'description');
-        $this->dispatch('open-modal', name: 'add-task');
     }
 
     public function save()
