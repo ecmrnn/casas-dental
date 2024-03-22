@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             $table->date('schedule_date')->default(date("Y-m-d"));
             $table->time('schedule_time')->default(date("H:i:s"));
+            $table->dateTime('scheduled_at')->default(date("Y-m-d H:i:s"));
             $table->dateTime('completed_at')->nullable();
             $table->softDeletes();
             $table->timestamps();

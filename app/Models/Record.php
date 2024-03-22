@@ -18,6 +18,7 @@ class Record extends Model
         'note',
         'schedule_date',
         'schedule_time',
+        'scheduled_at',
         'completed_at',
     ];
 }

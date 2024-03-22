@@ -174,22 +174,30 @@
                     {{ __('Late Patients') }}
                 </h2>
 
-                <div class="p-5 pb-0 mb-5 bg-gray-50/90 h-full sm:max-h-96 overflow-auto space-y-1">
-                    @foreach ($late as $record)
-                        <div>
-                            <a href="{{ route('record', ['id' => $record->patient_id]) }}" key="{{ $record->rid }}" class="p-5 bg-white rounded-lg border border-gray-200 flex justify-between">
-                                <div>
-                                    <p class="capitalize leading-none text-lg"> {{ $record->name }} </p>
-                                    <p class="capitalize text-sm leading-none"> {{ $record->purpose }} </p>
-                                </div>
-                                <div class="text-xs text-right">
-                                    <p class=""> {{ date('F j, Y', strtotime($record->schedule_date)) }} </p>
-                                    <p class=""> {{ date('g:i A', strtotime($record->schedule_time)) }} </p>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+                @if (count($late) == 0)
+                    <div class="w-full p-10 rounded-lg border border-gray-200">
+                        <p class="text-center text-7xl">👍</p>
+                        <p class="mt-2 text-center poppins-bold text-2xl leading-none">Nice!</p>
+                        <p class="text-center opacity-50">No late patients</p>
+                    </div>
+                @else
+                    <div class="p-5 pb-0 mb-5 bg-gray-50/90 h-full sm:max-h-96 overflow-auto space-y-1">
+                        @foreach ($late as $record)
+                            <div>
+                                <a wire:navigate href="{{ route('record', ['id' => $record->patient_id]) }}" key="{{ $record->rid }}" class="p-5 bg-white rounded-lg border border-gray-200 flex justify-between">
+                                    <div>
+                                        <p class="capitalize leading-none text-lg"> {{ $record->name }} </p>
+                                        <p class="capitalize text-sm leading-none"> {{ $record->purpose }} </p>
+                                    </div>
+                                    <div class="text-xs text-right">
+                                        <p class=""> {{ date('F j, Y', strtotime($record->schedule_date)) }} </p>
+                                        <p class=""> {{ date('g:i A', strtotime($record->schedule_time)) }} </p>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </x-modal>
         </section>
 

@@ -49,17 +49,19 @@ class Dashboard extends Component
             ->where('records.deleted_at', null)
             ->orderBy('schedule_time')
             ->paginate(8);
+
         $this->scheduledTotal = $scheduled->total();
 
         $late = DB::table('records')
             ->join('patients', 'records.patient_id', '=', 'patients.id')
             ->select('*', 'records.id AS rid')
             ->where('status', 'scheduled')
-            ->where('schedule_date', '<=', date('Y-m-d'))
-            ->where('schedule_time', '<', date($hour . ':i:s'))
+            ->where('scheduled_at', '<=', date('Y-m-d ' . $hour . ':i:s'))
             ->where('records.deleted_at', null)
+            ->orderBy('schedule_date')
             ->orderBy('schedule_time')
             ->get();
+
         return view('livewire.dashboard.dashboard', [
             'patients' => $patients,
             'late' => $late,

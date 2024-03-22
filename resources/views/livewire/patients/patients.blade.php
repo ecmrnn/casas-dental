@@ -32,13 +32,13 @@
 
         @if (count($patients) == 0)
             @if ($search !== '')
-                <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
+                <button x-on:click="$dispatch('open-modal', { name: 'add-patient'})" wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">😥</p>
                     <p class="mt-4 text-center poppins-bold text-2xl leading-none">Not Found!</p>
                     <p class="mt-1 text-center opacity-50">Click here to add '{{ $search }}' in the list.</p>
                 </button>
             @else
-                <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
+                <button x-on:click="$dispatch('open-modal', { name: 'add-patient'})" wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">😴</p>
                     <p class="mt-4 text-center poppins-bold text-2xl leading-none">List is empty!</p>
                     <p class="mt-1 text-center opacity-50">No patients, click here to add one.</p>

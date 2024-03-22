@@ -166,6 +166,7 @@ class Record extends Component
             $record->note = $this->note;
             $record->schedule_date = $this->scheduleDate;
             $record->schedule_time = $this->scheduleTime;
+            $record->scheduled_at = $this->scheduleDate . ' ' . $this->scheduleTime;
 
             $record->save();
             session()->flash('success', 'Record updated!');
@@ -223,6 +224,7 @@ class Record extends Component
             'note' => $this->note,
             'schedule_date' => $this->scheduleDate,
             'schedule_time' => $this->scheduleTime,
+            'scheduled_at' => $this->scheduleDate . ' ' . $this->scheduleTime,
             'completed_at' => $completedAt,
         ]);
 

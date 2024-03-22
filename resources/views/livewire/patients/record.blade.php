@@ -43,7 +43,7 @@
         </div>
 
         <div class="mt-5 sm:mt-0 space-y-2">
-            <div class="flex items-center gap-5">
+            <div class="flex items-center gap-5 capitalize">
                 <svg class="fill-primary shrink-0" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M192-144v-337l-64 49-44-58 108-82v-124h72v69l216-165 396 302-44 58-64-49v337H192Zm72-72h180v-144.27h72V-216h180v-320.334L480-701 264-537v321Zm-72-528q0-48 30-78t78-30q17 0 26.5-9.5T336-888h72q0 48-30 78t-78 30q-17 0-26.5 9.5T264-744h-72Zm72 528h432-432Z"/></svg>
                 @if ($patient->address)
                     <p>{{ $patient->address }}</p>
@@ -81,7 +81,7 @@
                     <p class="mt-1 text-center opacity-50">Record with '{{ $search }}' is not in the list.</p>
                 </div>
             @else
-                <button wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
+                <button x-on:click="$dispatch('open-modal', { name: 'add-record'})" wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">📂</p>
                     <p class="mt-4 text-center poppins-bold text-2xl leading-none">List is empty!</p>
                     <p class="mt-1 text-center opacity-50">No records, click here to add one.</p>
