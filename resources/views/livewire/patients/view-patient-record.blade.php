@@ -1,3 +1,7 @@
+@php
+    $hour = date('H') - 1;
+@endphp
+
 <div>
     <div>
         <button wire:click="viewRecord" class="block w-full">
@@ -42,7 +46,7 @@
                     <p class="capitalize leading-none">
                         <span class="opacity-50">Status:</span>
                         @if ($status == 'scheduled')
-                            @if ($scheduleDate . " " . $scheduleTime > date('Y-m-d H:i:s'))
+                            @if ($scheduleDate . " " . $scheduleTime > date('Y-m-d ' . $hour . ':i:s'))
                                 {{ __("Scheduled") }} 
                             @else
                                 {{ __("Late") }}
@@ -94,7 +98,7 @@
             <p>Record Completed?</p>
         </div>
 
-        <div class="p-5">
+        <div class="p-5 text-left">
             <p>Are you sure <span class="capitalize">{{ $firstName }}'s</span> <span class="capitalize border-b-2 border-gray-200">{{ $purpose }}</span> was already completed?</p>
         </div>
 

@@ -76,13 +76,17 @@
                             <tbody>
                                 @foreach ($completed as $record)
                                     <tr wire:key="{{ $record->rid }}">
+                                        {{-- Indicator --}}
                                         <td class="border-y border-l rounded-s-lg border-gray-200">
                                             <div class="w-[10px] m-4 aspect-square rounded-full bg-green-400">
                                             </div>
                                         </td>
+                                        {{-- Patient Name --}}
                                         <td class="border-y border-gray-200 capitalize">{{ $record->first_name . " " . $record->last_name }}</td>
+                                        {{-- Purpose --}}
                                         <td class="border-y border-gray-200 capitalize">{{ $record->purpose }}</td>
-                                        <td class="border-y border-gray-200 capitalize">{{ date('F d, Y', strtotime($record->completed_at)) }}</td>
+                                        {{-- Date --}}
+                                        <td class="border-y border-gray-200 capitalize">{{ date('F j, Y', strtotime($record->completed_at)) }}</td>
                                         <td class="p-2 border-y border-r border-gray-200 rounded-e-lg text-right">
                                             <div class="flex justify-end">
                                                 <livewire:patients.view-patient-record :record="$record" wire:key="{{ $record->rid }}" />

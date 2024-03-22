@@ -60,6 +60,7 @@ class Patients extends Component
             'lastName.required' => ':attribute is missing.',
             'lastName.min' => ':attribute is too short.',
             'contactNumber.required' => ':attribute is missing.',
+            'contactNumber.digits' => ':attribute must be 11 digits.',
             'contactNumber.numeric' => ':attribute cannot contain letters.',
             'email.email' => ':attribute invalid email format.',
 

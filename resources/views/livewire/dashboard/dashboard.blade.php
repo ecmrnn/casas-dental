@@ -88,7 +88,6 @@
                                 <th class="px-6 text-left bg-primary/5 rounded-s-lg">Time</th>
                                 <th class="py-3 text-left bg-primary/5">Patient name</th>
                                 <th class="py-3 text-left bg-primary/5">Purpose</th>
-                                <th class="py-3 text-left bg-primary/5">Your note</th>
                                 <th class="py-3 text-left bg-primary/5">Status</th>
                                 <th class="py-3 text-left bg-primary/5 rounded-e-lg"></th>
                             </x-slot>
@@ -107,14 +106,6 @@
                                         {{-- Purpose --}}
                                         <td class="border-y pr-3 border-gray-200 capitalize">
                                             {{ $record->purpose }}
-                                        </td>
-                                        {{-- Note --}}
-                                        <td class="border-y pr-4 border-gray-200 capitalize">
-                                            @if ($record->note)
-                                                {{ $record->note }}
-                                            @else
-                                                <p class="opacity-20">No note</p>
-                                            @endif
                                         </td>
                                         {{-- Status --}}
                                         <td class="border-y border-gray-200 capitalize">
@@ -142,7 +133,7 @@
                             <div key="{{ $record->rid }}" class="rounded-lg bg-white border border-gray-200 flex justify-between relative">
                                 <div class="w-full text-left flex justify-between items-center flex-grow">
                                     <div class="flex items-center">
-                                        @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d H:i:s'))
+                                        @if ($record->schedule_date . " " . $record->schedule_time > date('Y-m-d ' . $hour . ':i:s'))
                                             <div class="w-[12px] m-5 aspect-square rounded-full bg-orange-400">
                                             </div>
                                         @else

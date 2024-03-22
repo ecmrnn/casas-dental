@@ -35,7 +35,7 @@
                 <button x-on:click="$dispatch('open-modal', { name: 'add-patient'})" wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
                     <p class="text-center text-7xl">😥</p>
                     <p class="mt-4 text-center poppins-bold text-2xl leading-none">Not Found!</p>
-                    <p class="mt-1 text-center opacity-50">Click here to add '{{ $search }}' in the list.</p>
+                    <p class="mt-1 text-center opacity-50">Click here to add &quot;{{ $search }}&quot; in the list.</p>
                 </button>
             @else
                 <button x-on:click="$dispatch('open-modal', { name: 'add-patient'})" wire:click="add" class="w-full p-10 border border-gray-200 rounded-lg">
@@ -60,14 +60,19 @@
                 <tbody>
                     @foreach ($patients as $patient)
                         <tr key="{{ $patient->id }}">
+                            {{-- Folder --}}
                             <td class="pl-2 border-y border-l rounded-s-lg border-gray-200">
                                 <a wire:navigate href="{{ route('record', ['id' => $patient->id]) }}" class="w-[50px] h-[40px] grid place-items-center rounded-lg border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                     <svg class="fill-orange-400" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M168-192q-29 0-50.5-21.5T96-264v-432q0-30 21.5-51t50.5-21h216l96 96h312q30 0 51 21t21 51v336q0 29-21 50.5T792-192H168Z"/></svg>
                                 </a>
                             </td>
+                            {{-- Patient Name --}}
                             <td class="border-y border-gray-200 capitalize">{{ $patient->first_name . " " . $patient->last_name }}</td>
+                            {{-- Contact Number --}}
                             <td class="border-y border-gray-200">{{ substr($patient->contact_number, 0, 4) . " " . substr($patient->contact_number, 4, 3) . " " . substr($patient->contact_number, 7) }}</td>
+                            {{-- Date Added --}}
                             <td class="border-y border-gray-200">{{ date_format($patient->created_at, 'F d, Y') }}</td>
+                            {{-- ACtions --}}
                             <td class="border-y border-r border-gray-200 rounded-e-lg flex justify-end">
                                 <button wire:click="confirmDelete({{ $patient->id }})" class="p-2 m-2 mr-0 rounded-full grid place-items-center border border-transparent hover:border-gray-200 hover:bg-gray-50 transition-all ease-in-out duration-200">
                                     <svg class="fill-primary" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
@@ -334,13 +339,12 @@
             </div>
 
             <div class="p-5">
-                <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedFirstName . " " . $selectedLastName}}</span>?</p>
+                <p>Are you sure you want to remove <span class="capitalize border-b-2 border-gray-200">{{ $selectedFirstName . " " . $selectedLastName}}</span>? All of records related to this patient will also be deleted.</p>
             </div>
 
             <div class="p-5 grid gap-5 grid-cols-2 border-t border-gray-200">
                 <x-secondary-button x-on:click="show = false">No, cancel</x-secondary-button>
-                <x-danger-button x-on:click="show = false" wire:click="delete" class="flex items-center gap-5">
-                    <svg class="fill-white hidden sm:block" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                <x-danger-button x-on:click="show = false" wire:click="delete" class="flex items-center">
                     Yes, remove
                 </x-danger-button>
             </div>
