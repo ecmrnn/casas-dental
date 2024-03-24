@@ -11,17 +11,17 @@ class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_profile_page_is_displayed(): void
+    public function test_settings_page_is_displayed(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/profile');
+        $response = $this->actingAs($user)->get('/settings');
 
         $response
             ->assertOk()
-            ->assertSeeVolt('profile.update-profile-information-form')
-            ->assertSeeVolt('profile.update-password-form')
-            ->assertSeeVolt('profile.delete-user-form');
+            ->assertSeeVolt('settings.update-profile-information-form')
+            ->assertSeeVolt('settings.update-password-form')
+            ->assertSeeVolt('settings.delete-user-form');
     }
 
     public function test_profile_information_can_be_updated(): void
@@ -30,7 +30,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('profile.update-profile-information-form')
+        $component = Volt::test('settings.update-profile-information-form')
             ->set('name', 'Test User')
             ->set('email', 'test@example.com')
             ->call('updateProfileInformation');
@@ -43,6 +43,8 @@ class ProfileTest extends TestCase
 
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
+        $this->assertNull($user->address);
+        $this->assertNull($user->contact_number);
         $this->assertNull($user->email_verified_at);
     }
 
@@ -52,7 +54,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('profile.update-profile-information-form')
+        $component = Volt::test('settings.update-profile-information-form')
             ->set('name', 'Test User')
             ->set('email', $user->email)
             ->call('updateProfileInformation');
@@ -70,7 +72,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('profile.delete-user-form')
+        $component = Volt::test('settings.delete-user-form')
             ->set('password', 'password')
             ->call('deleteUser');
 
@@ -88,7 +90,7 @@ class ProfileTest extends TestCase
 
         $this->actingAs($user);
 
-        $component = Volt::test('profile.delete-user-form')
+        $component = Volt::test('settings.delete-user-form')
             ->set('password', 'wrong-password')
             ->call('deleteUser');
 

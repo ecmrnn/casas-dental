@@ -11,8 +11,8 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
-    public string $address = '';
-    public string $contact_number = '';
+    public $address = '';
+    public $contact_number = '';
 
     /**
      * Mount the component.
@@ -35,8 +35,8 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
-            'address' => ['string', 'min:5', 'max:255'],
-            'contact_number' => 'digits:11|numeric',
+            'address' => ['nullable', 'string', 'min:5', 'max:255'],
+            'contact_number' => ['nullable', 'digits:11|numeric'],
         ]);
 
         $user->fill($validated);

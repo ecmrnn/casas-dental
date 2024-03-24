@@ -26,7 +26,6 @@ class Tasks extends Component
     public $selectedDescription;
     public $selectedId;
     public $currentRoute;
-
     public function mount()
     {
         $this->currentRoute = Url::currentRoute();

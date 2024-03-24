@@ -193,6 +193,6 @@
         </section>
 
         {{-- Tasks --}}
-        @livewire('tasks.tasks')
+        <livewire:tasks.tasks />
     </div>
 </div>

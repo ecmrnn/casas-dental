@@ -83,14 +83,14 @@ new #[Layout('layouts.guest')] class extends Component
         {{-- Email --}}
         <div class="px-3 py-2 rounded-lg border border-gray-200">
             <x-input-label for="address" :value="__('Address')" />
-            <x-text-input wire:model="address" id="address" class="block mt-1 w-full" type="text" name="address" required autocomplete="username" />
+            <x-text-input wire:model="address" id="address" class="block mt-1 w-full" type="text" name="address" autocomplete="username" />
             <x-input-error :messages="$errors->get('address')" class="mt-2" />
         </div>
 
         {{-- Contact number --}}
         <div class="px-3 py-2 rounded-lg border border-gray-200">
             <x-input-label for="contact_number" :value="__('Contact Number')" />
-            <x-text-input wire:model="contact_number" id="contact_number" class="block mt-1 w-full" type="text" name="contact_number" required autocomplete="username" />
+            <x-text-input wire:model="contact_number" id="contact_number" class="block mt-1 w-full" type="text" name="contact_number" autocomplete="username" />
             <x-input-error :messages="$errors->get('contact_number')" class="mt-2" />
         </div>
 
